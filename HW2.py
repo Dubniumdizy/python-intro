@@ -2,7 +2,17 @@
 
 This script provides utility functions to convert and manipulate hexadecimal 
 and decimal numbers without using built-in conversion libraries.
+
+1. Make hexa_chars a global variable
+2. Add the comments from above
+3. Use find()/index() in 1b. Python strings only allow you to look up items using integers
+4. Hexa_to_deci lacks a return statment
+5. Use two empty rows between global functions, classes, import to first function/class. 
+Use one empty row between smaller logic like methods in a class, inside a function body
 """
+
+# Global variables 
+HEXA_CHARS = "0123456789ABCDEF"
 
 # =============================================================================
 # Uppgift 1a
@@ -16,7 +26,6 @@ def int_to_hexa_char(tal: int) -> str:
     Returns:
         str: The corresponding single hexadecimal character.
     """
-    hexa_chars = "0123456789ABCDEF"
     return hexa_chars[tal] # This is a list indexing operation
 
 
@@ -32,7 +41,6 @@ def hexa_char_to_int(symbol: str) -> int:
     Returns:
         int: The corresponding integer value in the range 0 to 15.
     """
-    hexa_chars = "0123456789ABCDEF"
     # Using .find() as recommended in the assignment tips
     return hexa_chars.find(symbol.upper())
 
@@ -52,6 +60,13 @@ def hexa_to_deci(hexa: str) -> int:
     Example: "1A" -> 26
     First: decimal_value = 0 * 16 + 1 = 1
     Second: decimal_value = 1 * 16 + 10 = 26
+
+    965_dec = 3C5_hex -> (C=12)
+    result = 0
+    result = 0 * 16 + 3 = 3 (ental)
+    result = 3 * 16 + 12 = 60 (tiotal)
+    result = 60 * 16 + 5 = 965 (hundratal)
+
     """
     decimal_value = 0
     for char in hexa:
@@ -194,6 +209,6 @@ def valid_hexa_list(string_list: list[str]) -> list[str]:
     return filtered_list
 
 if __name__ == "__main__":
-    # Test the function
+    # Testing
     print(int_to_hexa_char(4))
     print(hexa_char_to_int("D"))

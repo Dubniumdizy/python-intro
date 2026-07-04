@@ -47,6 +47,8 @@ def calculate_grade_average(grades, round_result=True):
 ```
 ---
 
+# Continue here
+
 ## Part 2: Documenting via Markdown (`.md`)
 
 A Markdown file (such as a `README.md`) acts as the primary introduction and manual for your project. Good documentation must include the following structural elements:
