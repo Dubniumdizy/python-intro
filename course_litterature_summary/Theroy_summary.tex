@@ -1,0 +1,216 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{booktabs}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{geometry}
+
+\geometry{margin=1in}
+
+\title{Programming Coursework Summary}
+\author{Disa Degerholm}
+\date{\today}
+
+% Color definitions for Python syntax highlighting
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+\lstset{
+    language=Python,
+    backgroundcolor=\color{backcolour},
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{magenta},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\ttfamily\small,
+    breakatwhitespace=false,
+    breaklines=true,
+    captionpos=b,
+    keepspaces=true,
+    numbers=left,
+    numbersep=5pt,
+    showspaces=false,
+    showstringspaces=false,
+    showtabs=false,
+    tabsize=4
+}
+
+\begin{document}
+
+\maketitle
+
+\section{Code Style \& Layout}
+
+\subsection{Indentation \& Spacing}
+\begin{itemize}
+    \item \textbf{Indentation:} Always use exactly 4 spaces per indentation level without mixing tabs. 
+    \item[] \textit{Example:} If statements must indent their nested logic block by exactly four empty spaces.
+    \item \textbf{Operators:} Place a single space on both sides of assignment, mathematical, and comparison operators.
+    \item[] \textit{Example:} Write \texttt{x = y + 2} instead of \texttt{x=y+2}.
+    \item \textbf{Brackets:} Do not leave spaces immediately inside parentheses or brackets, nor between function names and brackets.
+    \item[] \textit{Example:} Write \texttt{print("test")} and \texttt{items[0]} tightly without internal padding spaces.
+\end{itemize}
+
+\subsection{Blank Lines}
+\begin{itemize}
+    \item \textbf{Two Blank Lines:} Use exactly two empty rows to separate top-level functions and classes.
+    \item[] \textit{Example:} Place two blank lines down before declaring a new standalone \texttt{def global\_func():}.
+    \item \textbf{One Blank Line:} Use a single empty row to separate methods inside a class or distinct logic blocks inside a function body.
+    \item[] \textit{Example:} Insert one blank line between the definition loops inside a calculation function block.
+\end{itemize}
+
+\section{Definitions \& Syntax Logic}
+
+\subsection{Environment Setup}
+Intuition: Pass the active text configuration to the interpreter by pressing F5 or the green triangle.
+\begin{lstlisting}[language=Python]
+print("Welcome to DA2005")
+\end{lstlisting}
+
+\subsection{Variables \& Assignment Logic}
+Intuition: Variables act as named boxes where evaluation flows right-to-left.
+\begin{lstlisting}[language=Python]
+distance = 67
+time_used = 1.25
+average_velocity = distance / time_used
+\end{lstlisting}
+
+\subsection{Print Separators}
+Intuition: Commas inside execution brackets natively inject a space separation.
+\begin{lstlisting}[language=Python]
+print("Velocity:", average_velocity)
+\end{lstlisting}
+
+\subsection{Multi-Variable Assignment}
+Intuition: Commas separate parallel variable groups to match sequence layouts linearly.
+\begin{lstlisting}[language=Python]
+x, y = 2, 3
+\end{lstlisting}
+
+\subsection{Division Systems}
+Intuition: Single slash outputs a decimal float, double slash truncates to an integer.
+\begin{lstlisting}[language=Python]
+z = 22 / 7
+q = 22 // 7
+\end{lstlisting}
+
+\subsection{Exponentiation Operator}
+Intuition: Double up the asterisk multiplication symbol to signify power scaling.
+\begin{lstlisting}[language=Python]
+power = 2 ** 3
+\end{lstlisting}
+
+\subsection{Modulo Operation}
+Intuition: The percentage symbol returns only the leftover remainder from a division.
+\begin{lstlisting}[language=Python]
+remainder = 2 % 3
+\end{lstlisting}
+
+\subsection{Alternating Quotes}
+Intuition: Swap double and single enclosing symbols to print text quotes cleanly.
+\begin{lstlisting}[language=Python]
+quote_1 = "Sa du 'hej'?"
+\end{lstlisting}
+
+\subsection{String Escaping}
+Intuition: Embedding a backslash before an n pushes printing down to a newline.
+\begin{lstlisting}[language=Python]
+multiline_print = "Hipp\nnhipp\nnhurra!"
+\end{lstlisting}
+
+\subsection{User Interactivity}
+Intuition: Halts operations, displays the prompt text, and returns a string object.
+\begin{lstlisting}[language=Python]
+namn = input("Vad heter du?\n")
+\end{lstlisting}
+
+\subsection{Robust String Searching}
+Intuition: Map a letter to a number safely using find; missing values yield -1.
+\begin{lstlisting}[language=Python]
+def hexa_char_to_int(symbol: str) -> int:
+    hexa_chars = "0123456789ABCDEF"
+    return hexa_chars.find(symbol.upper())
+\end{lstlisting}
+
+\subsection{Native Brackets Lookup}
+Intuition: Map a number to a letter by passing integer indices into square brackets.
+\begin{lstlisting}[language=Python]
+def int_to_hexa_char(tal: int) -> str:
+    hexa_chars = "0123456789ABCDEF"
+    return hexa_chars[tal]
+\end{lstlisting}
+
+\subsection{Guard Clauses}
+Intuition: Escape validation loops early with condition gates to prevent crashes.
+\begin{lstlisting}[language=Python]
+def deci_to_hex(deci: int) -> str:
+    if deci == 0:
+        return "0"
+\end{lstlisting}
+
+\section{Good Practice Ideas}
+
+\begin{itemize}
+    \item \textbf{English Preference:} Standardize naming, comments, and project documentation in English.
+    \item[] \textit{Example:} Name an age variable \texttt{user\_age} instead of using Swedish terms.
+    \item \textbf{Self-Documenting Code:} Assign meaningful identities to identifiers so logic states remain obvious.
+    \item[] \textit{Example:} Use \texttt{average\_velocity} rather than the ambiguous character \texttt{v}.
+    \item \textbf{Inline Comments:} Leverage hash marks to declare why specific strategies are applied.
+    \item[] \textit{Example:} Write \texttt{\# Safely handles mathematical limits} above boundary conditions.
+    \item \textbf{Literal Management:} Isolate hardcoded constants at the script top for fast adjustments.
+    \item[] \textit{Example:} Declare \texttt{TAX\_RATE = 0.25} globally instead of inserting 0.25 within expressions.
+    \item \textbf{Type Constraints:} Explicitly convert input outcomes since they are captured as text strings.
+    \item[] \textit{Example:} Cast numerical input using \texttt{age = int(input("Age: "))}.
+    \item \textbf{Reserved Word Auditing:} Avoid reassigning internal keywords or core tool tags.
+    \item[] \textit{Example:} Never declare a tracking variable with native system names like \texttt{if = 4}.
+    \item \textbf{Guard Clauses:} Deal with anomalous inputs instantly using standalone control blocks.
+    \item[] \textit{Example:} Return zero instantly if checking collections containing zero entities.
+    \item \textbf{Boolean Tests:} Evaluate state queries directly through native logical conditions.
+    \item[] \textit{Example:} Validate flags with syntax structured as \texttt{if not ready:}.
+    \item \textbf{String Searching:} Swap string index calls with find methods to suppress runtime value errors.
+    \item[] \textit{Example:} Execute \texttt{"ABC".find("Z")} to gather a manageable negative integer flags.
+    \item \textbf{Typo Prevention:} Maintain method verification practices to ensure file streams release memory.
+    \item[] \textit{Example:} Ensure text handles clear active locks explicitly via the \texttt{.close()} routine.
+    \item \textbf{Interactive Safeguards:} Loop defensive error blocks to secure input pipelines.
+    \item[] \textit{Example:} Run user queries inside continuous checks protected by try and except blocks.
+\end{itemize}
+
+\section{Project Documentation \& Git}
+
+\subsection{Markdown Layout}
+\begin{itemize}
+    \item \textbf{Structure:} Define explicit primary headers above descriptive overview paragraphs.
+    \item[] \textit{Example:} Write \texttt{\# Project Name} at the absolute first line of text layout files.
+    \item \textbf{Compliance Checklists:} Record architectural limitations using bullet points to demonstrate obedience.
+    \item[] \textit{Example:} Include a checklist item stating that built-in libraries were avoided.
+    \item \textbf{Code Presentation:} Bind technical scripts inside specialized language blocks using triple backticks.
+    \item[] \textit{Example:} Wrap programming examples within block regions declared as \texttt{\textasciigrave\textasciigrave\textasciigrave python}.
+\end{itemize}
+
+\subsection{Git Version Control}
+\begin{itemize}
+    \item \textbf{Repository Functionality:} Think of repositories as secure project historical records tracking file adjustments.
+    \item[] \textit{Example:} Use repository history logs to roll back accidental formatting changes.
+    \item \textbf{Public Visibility:} Deselect visibility restrictions during cloud uploads to provide structural links.
+    \item[] \textit{Example:} Toggle cloud visibility off from private mode inside your local desktop sync application.
+\end{itemize}
+
+\subsection{Comparison Matrix}
+\begin{table}[h]
+\centering
+\begin{tabular}{@{}lll@{}}
+\toprule
+\textbf{Feature} & \textbf{Normal Desktop Folder} & \textbf{GitHub Repository} \\ \midrule
+Storage & Lives locally on hard drives. & Stored locally and backed up online. \\
+Version History & Overwritten edits are lost. & Tracks every historical snapshot taken. \\
+Sharing & Requires file compression and emailing. & Shared instantly via a public web URL. \\ \bottomrule
+\end{tabular}
+\caption{Desktop Folder vs. GitHub Repository}
+\end{table}
+
+\end{document}

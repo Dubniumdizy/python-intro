@@ -9,6 +9,11 @@ Allt kräver repetition flashcards/nya projekt/gamla tentor
 Du vill göra fel! Hypercorrection effect hjälper dig minnas
 - HW
 - Etiqutte + shortcut commands
+ctlr c/v
+ctrl +/-
+ctlr click / ctlr + j jump between functions/text
+bookmarks in VS code
+window on top
 - good ai prompts for learning
 - debugging in VS code
 - Choose a project
@@ -23,6 +28,7 @@ Other:
 - Use cursor, api etc to code and vibe code a bigger app
 - Linux
 - Other languages: go (good for paralell programming), matlab (good for math), C++ (good for assebmly)
+- Private functions
 
 
 # bok behövs ej
