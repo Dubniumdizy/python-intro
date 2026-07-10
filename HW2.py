@@ -159,6 +159,29 @@ def add_mixed_list(mixed_list: list, output_form: str) -> int | str:
         return total
     elif output_form == "h":
         return deci_to_hex(total)
+    
+###############################################################
+
+def add_mixed_lists (mixed_list, output_form):
+    sum = 0
+
+    for char in mixed_list:
+        if isinstance(char, int):
+            sum = char + sum
+        else:
+            char_clean = remove_prefix(char)
+            char_deci = hexa_to_deci(char_clean)
+            sum = char_deci + sum
+           
+    if output_form == "d":
+        return sum
+    elif output_form == "h":
+        return deci_to_hexa(sum)
+
+add_mixed_list([1,"0001","0xA"], "d")
+print(sum)
+
+
 
 
 # =============================================================================
@@ -212,3 +235,8 @@ if __name__ == "__main__":
     # Testing
     print(int_to_hexa_char(4))
     print(hexa_char_to_int("D"))
+
+
+######################################################################################################################################################################
+
+

@@ -29,6 +29,7 @@ Other:
 - Linux
 - Other languages: go (good for paralell programming), matlab (good for math), C++ (good for assebmly)
 - Private functions
+- Virtual Enviroments
 
 
 # bok behövs ej

@@ -21,6 +21,23 @@ def insert_in_sorted(x: int, sorted_list: list[int]) -> list[int]:
           the correct place.
 
     Example: insert_in_sorted(5, [1, 3, 7]) -> [1, 3, 5, 7]
+
+    sorted_list = [1 2 3 5] elements
+    new list = [] inserted
+    x = 4
+
+    element = 1
+    not insterted and 4 is not less than 1
+    -> new list = [1]
+
+    ... new list = [123]
+
+    element = 5
+    not inserted and 4<5!
+    new list = [1 2 3 4]
+    inserted TRUE!
+    new list = [1 2 3 4 5]
+
     """
     idx = 0
     # Iterate to find the first element greater than x
@@ -49,6 +66,20 @@ def insertion_sort(my_list: list[int]) -> list[int]:
           in ascending order.
 
     Example: insertion_sort([3, 1, 4]) -> [1, 3, 4]
+
+    my_list = [321]
+    out = []
+
+    for x=3
+    out = func(insert element, sorted list) = func(3, out) = [3]
+    
+    for x=2
+    out = func(2, out) = [2 3]
+
+    for x=1
+    out = func(1, out) = [1 2 3]
+
+    (2, [])
     """
     out: list[int] = [] # Initialize an empty list to and add type hint
     for item in my_list:
@@ -71,6 +102,30 @@ def number_lines(f: str) -> None:
     The output file "numbered_example.txt" will contain:
         0 Hello World
         1 This is a test.
+
+    f = poem.txt
+    cats are best
+    no protests!
+
+    Mjau
+    _________
+
+    outputfilename = numbered_poem.txt
+
+    infile = opens poem.txt reads -> the full txt
+    outfile = in numbered_poem.txt it can edit
+
+    for line = 0 "cats are best"
+    outfile = 0 + " " + cats are best = 0 cats are best
+
+    for line = 1 "no preotests!"
+    outfile = 1 + " " + no protests!
+
+    for line = 2 " "
+    outfile = 2 + " "
+    ...
+
+    close() both and save
     """
     # Create the output filename according to rules: "numbered_" + original name
     output_filename = "numbered_" + f
@@ -81,17 +136,18 @@ def number_lines(f: str) -> None:
     
     line_number = 0
     for line in infile:
-        outfile.write(str(line_number) + " " + line)
+        outfile.write(str(line_number) + " " + line) # outfile = ...
         line_number += 1
         
     infile.close()
     outfile.close()
 
+# variable.func()
 
 # =============================================================================
 # Uppgift 3a: enkel textindexering (index_text)
 # =============================================================================
-def index_text(filename: str) -> dict[str, list[int]]:
+def index_text(filename):
     """Builds an index dictionary tracking the specific line numbers where words occur.
 
     Args:
@@ -106,8 +162,44 @@ def index_text(filename: str) -> dict[str, list[int]]:
         world
     The index_dict will contain:
         {"hello": [0], "world": [1]}
+
+    dicttionary{key: keyword} = {{Disa: [22, fish]}, {Karolina: [19, cat]}} = dict
+    dict[Disa][0] = 22
+_________________________________________
+
+    filename = zoo_animals.txt
+    Hoarses are fun
+    Apples are are fun for hoarses
+
+    index_dict = {key: keywords, ...}
+    infile = zoo_animals.txt info downloaded
+
+    line_idx = 0
+    for line = 0 in zoo_animals
+    words created list = [hoarses, are, fun]
+        for horases in words
+        make all low letters
+        if hoarse isnt in {} True -> add horases as a key to to the dict, syntax: index_dict[hoarses] = [] with no keywords
+        current_list = horases x2 for ex two key
+        if the dict repeats horses then we update the dict by deleting that extra key 
+        if that is clear then add horases = 1
+...
+        are_2 = word
+        clean_are = low letters
+        if are not in {} -> dict{are = []}
+        current line = dict{are = [2]}
+        if are appear or if are was not the previous key (are_1)?=2 THEN add in dict the keyword line
+
+....
+
+Keys: keywords
+Hoarses: [0, 1]
+Are: [0, 1]
+Fun: [0, 1]
+Apples: [1]
+For: [1]
     """
-    index_dict: dict[str, list[int]] = {}
+    index_dict = {} 
     infile = open(filename, "r")
     
     line_idx = 0
@@ -125,7 +217,7 @@ def index_text(filename: str) -> dict[str, list[int]]:
             current_lines = index_dict[clean_word]
             # Check if the current line index is already recorded for this word by checking 
             # if it's 0 or if the last recorded line index is not equal to the current line index
-            if len(current_lines) == 0 or current_lines[len(current_lines) - 1] != line_idx: 
+            if (len(current_lines) == 0 or current_lines[len(current_lines) - 1]) != line_idx: 
                 # Append the current line index to the list for this word
                 current_lines.append(line_idx)
                 
@@ -148,8 +240,14 @@ def important_words(an_index: dict[str, list[int]], stop_words: list[str]) -> li
     Returns:
         list: A collection containing up to 5 of the most frequent words, sorted 
           by appearance count.
+
+     ehueafuaef ueafh d hadvhasfu af hoasf hoasijo 
+     which one is the most frequent? but skip are, be, I
+     hoarse: 79
+     Fun: 22
+     ...
     """
-    candidates: list[str] = []
+    candidates = []
     
     # Filter out any word present in the stop_words sequence
     for word in an_index:
@@ -159,6 +257,17 @@ def important_words(an_index: dict[str, list[int]], stop_words: list[str]) -> li
     # Sort candidates by the length of their line index lists (frequency)
     # Using Selection Sort layout since built-in sort/sorted are strictly forbidden
     # Selection sort is used like before
+    '''
+    hoarses : 1
+    fun : 2
+
+    max_idx for hoarses
+    j = max_idx for fun
+
+    while fun apears more than hoarses
+    
+    '''
+
     i = 0
     while i < len(candidates):
         max_idx = i
