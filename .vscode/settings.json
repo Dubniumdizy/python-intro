@@ -1,0 +1,44 @@
+{
+    "python-envs.defaultEnvManager": "ms-python.python:system",
+    "latex-workshop.latex.tools": [
+        {
+            "name": "miktex-pdftex",
+            "command": "C:\\Program Files\\MiKTeX\\miktex\\bin\\x64\\miktex-pdftex.exe",
+            "args": [
+                "-fmt=pdflatex",
+                "-interaction=nonstopmode",
+                "-synctex=1",
+                "-file-line-error",
+                "-halt-on-error",
+                "%DOCFILE%"
+            ]
+        },
+        {
+            "name": "miktex-xetex",
+            "command": "C:\\Program Files\\MiKTeX\\miktex\\bin\\x64\\miktex-xetex.exe",
+            "args": [
+                "-fmt=xelatex",
+                "-interaction=nonstopmode",
+                "-synctex=1",
+                "-file-line-error",
+                "-halt-on-error",
+                "%DOCFILE%"
+            ]
+        }
+    ],
+    "latex-workshop.latex.recipes": [
+        {
+            "name": "MiKTeX pdfTeX",
+            "tools": [
+                "miktex-pdftex"
+            ]
+        },
+        {
+            "name": "MiKTeX XeTeX",
+            "tools": [
+                "miktex-xetex"
+            ]
+        }
+    ],
+    "latex-workshop.latex.recipe.default": "MiKTeX pdfTeX"
+}

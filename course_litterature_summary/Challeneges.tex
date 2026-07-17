@@ -1,0 +1,360 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{geometry}
+\usepackage{booktabs}
+\usepackage{enumitem}
+\usepackage{listings}
+\usepackage{xcolor}
+
+\geometry{margin=1in}
+
+\definecolor{primary}{HTML}{1B365D}
+\definecolor{secondary}{HTML}{4A777A}
+
+\lstset{
+    language=Python,
+    basicstyle=\ttfamily\small,
+    breaklines=true,
+    showstringspaces=false,
+    frame=single
+}
+
+\title{\bfseries\color{primary}Kapitel 1: Kom igång med Python\\ \large Viktiga Begrepp och Studiefrågor (DA2005)}
+\author{Studieguide}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\section{Kapitel 1: Intro till Python}
+
+\begin{description}[style=nextline, leftmargin=1cm, labelindent=0.5cm]
+    \item[\color{primary}Programmering] Att skriva instruktioner (program) som en dator sedan kan köra för att lösa specifika problem.
+    \item[\color{primary}Anaconda] En distribution och ett verktygsprogram för Python som används för att hantera paket, bibliotek och virtuella utvecklingen.
+    \item[\color{primary}Spyder] En integrerad utvecklingsmiljö (IDE) som följer med Anaconda, utrustad med kodredigerare, syntaxmarkering (syntax highlighting) och en interaktiv konsol.
+    \item[\color{primary}Python-tolk (Interpreter)] Det program som läser, analyserar och kör (tolkar) Python-kod rad för rad i realtid.
+    \item[\color{primary}Konsol (Console)] Det interaktiva fönstret (t.ex. i Spyder) där man kan skriva enstaka Python-uttryck för att direkt se deras resultat, samt där programmets utskrifter visas.
+    \item[\color{primary}Variabel] En namngiven behållare i datorns minne som används för att spara och referera till ett värde.
+    \item[\color{primary}Tilldelning (Assignment)] Processen där ett värde lagras i en variabel med hjälp av tilldelningsoperatorn \texttt{=}. Exempel: \texttt{s = 67}.
+    \item[\color{primary}Datatyp] En klassificering av data som talar om för tolken hur värdet ska användas. De tre primära typerna i kapitel 1 är:
+    \begin{itemize}
+        \item \textbf{Heltal (\texttt{int}):} Representerar heltal utan decimaler (t.ex. \texttt{17}, \texttt{-3}).
+        \item \textbf{Flyttal (\texttt{float}):} Representerar reella tal med decimalpunkt (t.ex. \texttt{3.14}, \texttt{1.25}).
+        \item \textbf{Sträng (\texttt{str}):} En sekvens av tecken som omges av enkelfnuttar (\texttt{'hej'}) eller dubbelfnuttar (\texttt{"hej"}).
+    \end{itemize}
+    \item[\color{primary}Aritmetiska operationer] Matematiska operationer för beräkningar:
+    \begin{itemize}
+        \item \textbf{Heltalsdivision (\texttt{//}}): Dividerar två tal och avrundar nedåt till närmaste heltal.
+        \item \textbf{Exponentiering (\texttt{**}}): Upphöjt till (t.ex. \texttt{2**3} ger 8).
+        \item \textbf{Modulus/Rest (\texttt{\%}}): Returnerar resten vid en heltalsdivision (t.ex. \texttt{5 \% 2} ger 1).
+    \end{itemize}
+    \item[\color{primary}Reserverade ord (Keywords)] Ord som har en specifik fördefinierad betydelse i Python och som därför inte får användas som variabelnamn (t.ex. \texttt{and}, \texttt{if}, \texttt{for}, \texttt{True}).
+    \item[\color{primary}Identifierare (Identifiers)] Namn på resurser i programmet, såsom variabler, funktioner eller klasser. De måste börja med en bokstav eller understreck (\texttt{\_}) och får inte börja med en siffra.
+    \item[\color{primary}Litteral] Ett fast, konstant värde som skrivs direkt i programkoden (t.ex. talet \texttt{2.5} eller strängen \texttt{'SU'}). Bör helst inte spridas okontrollerat i koden (undvik s.k. ``hårdkodning'').
+\end{description}
+
+\section*{Instuderingsfrågor (Review Questions)}
+
+\begin{enumerate}[label=\bfseries\color{primary}Fråga \arabic*:, leftmargin=1.8cm]
+    \item {\bfseries Vad är skillnaden mellan en Python-tolk och en utvecklingsmiljö som Spyder?}
+    \\ {\itshape Svar: Tolken kör själva koden, medan Spyder är ett verktyg/redigeringsprogram som gör det lättare för programmeraren att skriva, felsöka och organisera koden.}
+    
+    \item {\bfseries Varför är ordningsföljden på instruktioner viktig vid tilldelning av variabler? Ge ett exempel på en otillåten ordning.}
+    \\ {\itshape Svar: Python körs sekventiellt (rad för rad). Du kan inte använda en variabel i en beräkning innan den har definierats. Till exempel ger följande kod felmeddelandet \texttt{NameError}:}
+    \begin{verbatim}
+    v = s / t  # Fel! s och t är inte definierade än.
+    s = 67
+    t = 1.25
+    \end{verbatim}
+
+    \item {\bfseries Förklara skillnaden i resultat mellan operatorerna \texttt{/}, \texttt{//}, och \texttt{\%} med hjälp av talen 7 och 3.}
+    \\ {\itshape Svar:}
+    \begin{itemize}
+        \item \texttt{7 / 3} ger flyttalet \texttt{2.3333333333333335} (vanlig division).
+        \item \texttt{7 // 3} ger heltalet \texttt{2} (heltalsdivision, kapar decimalerna).
+        \item \texttt{7 \% 3} ger resten \texttt{1} (modulus, eftersom $7 = 2 \times 3 + 1$).
+    \end{itemize}
+
+    \item {\bfseries Vad händer om du kör koden \texttt{'hej' * 3} respektive \texttt{'hej' + 3}? Förklara varför.}
+    \\ {\itshape Svar:} 
+    \begin{itemize}
+        \item \texttt{'hej' * 3} duplicerar strängen och ger \texttt{'hejhejhej'}. Detta är en tillåten operation (sträng multiplicerat med heltal).
+        \item \texttt{'hej' + 3} ger ett \texttt{TypeError} eftersom man inte kan addera (konkatenera) en sträng med ett heltal (\texttt{int}) direkt utan att först konvertera talet till en sträng.
+    \end{itemize}
+
+    \item {\bfseries Vilka av följande är giltiga identifierare (variabelnamn) i Python? Om de är ogiltiga, förklara varför.}
+    \begin{enumerate}[label=\alph*)]
+        \item \texttt{my\_variable}
+        \item \texttt{2nd\_value}
+        \item \texttt{class}
+        \item \texttt{Value\_17}
+    \end{enumerate}
+    {\itshape Svar:}
+    \begin{itemize}
+        \item a) och d) är {\bfseries giltiga}.
+        \item b) är {\bfseries ogiltig} eftersom en identifierare inte får börja med en siffra.
+        \item c) är {\bfseries ogiltig} eftersom \texttt{class} är ett reserverat ord (keyword) i Python.
+    \end{itemize}
+
+    \item {\bfseries Vad menas med att ``hårdkoda'' ett värde, och varför bör man undvika litteraler spridda i koden enligt kompendiet?}
+    \\ {\itshape Svar: Att hårdkoda innebär att skriva in konstanta värden (litteraler) direkt i beräkningar spridda över programmet. Det bör undvikas eftersom det försvårar uppdateringar (om värdet ändras måste man leta upp alla ställen manuellt) och ökar risken för programmeringsfel. Det är bättre att definiera värdet en gång i en tydligt namngiven variabel längst upp i koden.}
+\end{enumerate}
+
+\section{Kapitel 2: intro till python}
+
+\begin{description}[style=nextline, leftmargin=1cm, labelindent=0.5cm]
+    \item[\color{primary}Syntax] Regler för hur kod skrivs för att Python ska förstå den.
+    \item[\color{primary}Semantik] Innebörden eller betydelsen av vad koden gör.
+    \item[\color{primary}Datatyper] Python har inbyggda typer som \texttt{str}, \texttt{int}, \texttt{float}, \texttt{complex}, \texttt{bool} och \texttt{NoneType}.
+    \item[\color{primary}Typomvandling] Kan vara implicit (automatisk) eller explicit (t.ex. \texttt{int(x)}).
+    \item[\color{primary}Kortslutning (Short circuiting)] När logiska operatorer (\texttt{and}/\texttt{or}) avbryter utvärderingen så fort resultatet är garanterat.
+    \item[\color{primary}Modulär kod] Program uppdelade i mindre, fristående funktioner.
+    \item[\color{primary}Docstrings] Dokumentationssträngar knutna till funktioner, läsbara via \texttt{help()}.
+    \item[\color{primary}Scope] Räckvidden för en variabel (global eller lokal).
+\end{description}
+
+\begin{enumerate}[label=\bfseries\color{primary}Fråga \arabic*:, leftmargin=1.8cm]
+    \item \textbf{Vad är skillnaden mellan SyntaxError och semantiska fel?}
+    \\ \textit{Svar:} Syntaxfel innebär att koden inte följer språkets grammatik, vilket gör att den inte kan köras. Semantiska fel innebär att koden är korrekt skriven men utför fel logik, vilket resulterar i oväntade utdata.
+    
+    \item \textbf{Varför representeras flyttal som approximationer?}
+    \\ \textit{Svar:} Python representerar flyttal genom bråk i bas 2. Det är matematiskt omöjligt att representera alla reella tal exakt med ett begränsat antal bitar på en dator.
+    
+    \item \textbf{Hur ändrar man en global variabel inuti en funktion?}
+    \\ \textit{Svar:} Genom att använda det reserverade ordet \texttt{global} inuti funktionen deklarerar man att man avser att ändra den globala variabeln snarare än att skapa en lokal variabel med samma namn.
+    
+    \item \textbf{Vad händer om en funktion saknar \texttt{return}?}
+    \\ \textit{Svar:} Om \texttt{return} saknas returnerar funktionen värdet \texttt{None} som standard.
+    
+    \item \textbf{Varför är \texttt{elif} användbart?}
+    \\ \textit{Svar:} Det förbättrar kodens läsbarhet genom att ersätta krångliga, nästlade \texttt{if-else}-strukturer, vilket gör logiken tydligare att följa.
+\end{enumerate}
+
+\section{Kapitel 3: Listor och iteration}
+
+\begin{description}[style=nextline, leftmargin=1cm, labelindent=0.5cm]
+    \item[\color{primary}Lista] En sekvens av element (av valfri typ) inneslutna i hakparenteser \texttt{[]}.
+    \item[\color{primary}Iteration] Processen att automatisera repetitiva uppgifter.
+    \item[\color{primary}for-loop] Används för att iterera över element i en sekvens.
+    \item[\color{primary}while-loop] Används för att repetera kod så länge ett villkor är sant.
+\end{description}
+
+\begin{enumerate}[label=\bfseries\color{primary}Fråga \arabic*:, leftmargin=1.8cm]
+    \item \textbf{Varför är listor viktiga?}
+    \\ \textit{Svar:} De gör det möjligt att samla och hantera flera element effektivt, vilket underlättar beräkningar och databehandling.
+    
+    \item \textbf{Vad är skillnaden mellan for och while?}
+    \\ \textit{Svar:} \texttt{for}-loopar används för att iterera över samlingar, medan \texttt{while}-loopar repeterar kod baserat på ett sant villkor.
+\end{enumerate}
+
+\section{Kapitel 4: Filer och dictionaries}
+
+\begin{description}[style=nextline, leftmargin=1cm, labelindent=0.5cm]
+    \item[\color{primary}Datastruktur] En struktur för att organisera och samla data logiskt.
+    \item[\color{primary}Uppslagstabell] En datastruktur som kan indexeras med andra typer än bara heltal.
+    \item[\color{primary}Filhantering] Tekniker för att läsa från och skriva till filer på disk.
+\end{description}
+
+\section*{Besvarade Instuderingsfrågor}
+\begin{enumerate}[label=\bfseries\color{primary}Fråga \arabic*:, leftmargin=1.8cm]
+    \item \textbf{Vad skiljer en uppslagstabell från en lista?}
+    \\ \textit{Svar:} Listor indexeras via heltal, medan uppslagstabeller tillåter indexering via andra datatyper.
+    
+    \item \textbf{Vad är syftet med filhantering?}
+    \\ \textit{Svar:} Det möjliggör permanent lagring av data samt inläsning av extern data som inte finns direkt i programkoden.
+\end{enumerate}
+
+\section{Kapitel 5: Felhantering och undantag}
+
+\begin{description}[style=nextline, leftmargin=1cm, labelindent=0.5cm]
+    \item[\color{primary}Felhantering] Metoder för att hantera programfel (t.ex. krascher).
+    \item[\color{primary}Särfall (Exception)] Signalering av fel som uppstått under körning.
+    \item[\color{primary}try/except] Pythons verktyg för att fånga och hantera uppkomna fel.
+    \item[\color{primary}Listomfattning] Kompakt syntax för att skapa och bearbeta listor.
+\end{description}
+
+\begin{enumerate}[label=\bfseries\color{primary}Fråga \arabic*:, leftmargin=1.8cm]
+    \item \textbf{Varför är särfall bättre än felkoder?}
+    \\ \textit{Svar:} Felkoder gör koden svårläst och komplex p.g.a. ständiga kontroller. Särfall separerar felhantering från den ordinarie logiken.
+    
+    \item \textbf{Vad är fördelen med listomfattning?}
+    \\ \textit{Svar:} Det möjliggör mer kompakt och effektiv kod vid skapande av listor jämfört med traditionella loopar.
+\end{enumerate}
+
+\section{Kapitel 6: Sekvenser och generatorer}
+
+\begin{description}[style=nextline, leftmargin=1cm, labelindent=0.5cm]
+    \item[\color{primary}Sekvenstyp] Datatyp med gemensamma operationer (t.ex. indexering, slice).
+    \item[\color{primary}Muterbar] Objekt som kan ändras efter skapande (t.ex. listor).
+    \item[\color{primary}Icke-muterbar] Objekt som är konstanta (t.ex. tupler, strängar).
+\end{description}
+
+\begin{enumerate}[label=\bfseries\color{primary}Fråga \arabic*:, leftmargin=1.8cm]
+    \item \textbf{Vad är skillnaden mellan muterbara och icke-muterbara objekt?}
+    \\ \textit{Svar:} Muterbara objekt kan ändras efter skapande, medan icke-muterbara objekt är konstanta.
+    
+    \item \textbf{Varför är muterbarhet viktigt?}
+    \\ \textit{Svar:} Det påverkar hur objekt hanteras i funktioner och kan leda till oväntade sidoeffekter om man inte är medveten om att originalobjektet ändras.
+\end{enumerate}
+
+\section{Kapitel 7: Moduler, biblotek och programstruktur}
+
+\begin{description}[style=nextline, leftmargin=1cm, labelindent=0.5cm]
+    \item[\color{primary}Sekvenstyp] Datatyp med gemensamma operationer (t.ex. indexering, slice).
+    \item[\color{primary}Muterbar] Objekt som kan ändras efter skapande (t.ex. listor).
+    \item[\color{primary}Icke-muterbar] Objekt som är konstanta (t.ex. tupler, strängar).
+\end{description}
+
+\begin{enumerate}[label=\bfseries\color{primary}Fråga \arabic*:, leftmargin=1.8cm]
+    \item \textbf{Vad är skillnaden mellan muterbara och icke-muterbara objekt?}
+    \\ \textit{Svar:} Muterbara objekt kan ändras efter skapande, medan icke-muterbara objekt är konstanta.
+    
+    \item \textbf{Varför är muterbarhet viktigt?}
+    \\ \textit{Svar:} Det påverkar hur objekt hanteras i funktioner och kan leda till oväntade sidoeffekter om man inte är medveten om att originalobjektet ändras.
+\end{enumerate}
+
+\begin{lstlisting}
+    '''
+    short/modular (variables, functions, files) 
+    variables (nouns,repeating stuff should be global constants)
+    functions (action on what, return for local > global=constant, keep be math alone, don't return int/bool/fixed stuff/unspecified numbers, several returns > one)
+    documentation (what, arg & returns - name, type, description)
+    OOP (code skeleton)
+    Tests
+    ! main
+    commenting (why you chose a method, use this when) - no syntax explinations, no examples, no long sentances
+
+    Type hinting (def(arg: type) -> return_type)
+    '''
+\end{lstlisting}
+
+\section{Kapitel 8: Funktionell programmering}
+
+\begin{description}[style=nextline, leftmargin=1cm, labelindent=0.5cm]
+    \item[\color{primary}Funktionell programmering] bygger på att man anropar, sätter ihop och modifierar funktioner.
+    \item[\color{primary}Rekursion] En teknik där en funktion anropar sig själv för att lösa ett problem.
+    \item[\color{primary}Högre ordningens funktioner] Funktioner som tar andra funktioner som argument eller returnerar funktioner.
+    \item[\color{primary}Anonyma funktioner (lambda)] Funktioner utan namn som definieras med \texttt{lambda}-syntaxen. Används ofta som argument till högre ordningens funktioner då de inte behöver återanvändas.
+    \item[\color{primary}Svansrekursion] En form av rekursion där det rekursiva anropet är det sista som sker i funktionen. Vissa språk kan optimera detta till en loop för att spara minne.
+\end{description}
+
+\begin{enumerate}[label=\bfseries\color{primary}Fråga \arabic*:, leftmargin=1.8cm]
+    \item \textbf{Vad innebär rekursion?}
+    \\ \textit{Svar:} Rekursion är när en funktion anropar sig själv. Det är ett alternativ till loopar och kan göra koden mer elegant.
+    
+    \item \textbf{Vad kännetecknar funktionell programmering?}
+    \\ \textit{Svar:} Det bygger på att använda, kombinera och modifiera funktioner snarare än att styra programflödet med loopar och variabler som ändras.
+
+    \item \textbf{Varför behöver rekursion ett basfall?}
+    \\ \textit{Svar:} Ett basfall behövs för att stoppa rekursionen och förhindra oändliga anrop.
+
+\end{enumerate}
+
+\begin{lstlisting}
+    def pascal(n):
+    '''
+    Ex:
+    1. pascal(3) exekveras:
+       n = 3 (inte 1, gar vidare)
+       Anropar pascal(2) for att fa 'prev_row'
+    2. pascal(2) exekveras:
+       n = 2 (inte 1, gar vidare)
+       Anropar pascal(1) for att fa 'prev_row'
+    3. pascal(1) exekveras:
+       n = 1 (basfallet uppnatt!)
+       RETURVARDE FRAN pascal(1): [1]
+
+    [RETURFASEN - Vagen upp och berakning av varden]
+    4. Tillbaka i pascal(2):
+        Mottagit 'prev_row' = [1]
+        Initierar 'new_elements' = []
+        Beraknar loopen: range(len([1]) - 1) -> range(0) -> Loopen kors 0 ganger
+        Satter ihop raden: [1] + [] + [1]
+        RETURVARDE FRAN pascal(2): [1, 1]
+    5. Tillbaka i pascal(3):
+        Mottagit 'prev_row' = [1, 1]
+        Initierar 'new_elements' = []
+        Beraknar loopen: range(len([1, 1]) - 1) -> range(1) -> Loopen kors for i = 0
+            * i = 0: prev_row[0] + prev_row[1] -> 1 + 1 = 2
+            * new_elements.append(2) -> 'new_elements' ar nu [2]
+        Satter ihop raden: [1] + [2] + [1]
+        RETURVARDE FRAN pascal(3): [1, 2, 1]
+    '''
+        if n == 1:
+            return [1]
+        
+        prev_row = pascal(n - 1)
+        new_elements = []
+        
+        for i in range(len(prev_row) - 1):
+            new_elements.append(prev_row[i] + prev_row[i+1])
+            
+        return [1] + new_elements + [1]
+\end{lstlisting}
+
+\section{Kapitel 9: OOP och klasser}
+
+\begin{description}[style=nextline, leftmargin=1cm, labelindent=0.5cm]
+    \item[\color{primary}Objektorientering] Paradigm där data och funktioner samlas i objekt.
+    \item[\color{primary}Metod] En funktion som är knuten till ett specifikt objekt.
+    \item[\color{primary}Punktnotation] Syntaxen \texttt{objekt.metod()} för att anropa metoder.
+\end{description}
+
+\begin{enumerate}[label=\bfseries\color{primary}Fråga \arabic*:, leftmargin=1.8cm]
+    \item \textbf{Vad innebär objektorientering?}
+    \\ \textit{Svar:} Att samla data och de funktioner som opererar på datan i gemensamma objekt.
+    
+    \item \textbf{Varför använda objektorientering?}
+    \\ \textit{Svar:} För att organisera relaterad data på ett ställe och för att kunna definiera egna datatyper.
+\end{enumerate}
+
+\section{Kapitel 10: OOP arv}
+\begin{description}[style=nextline, leftmargin=1cm, labelindent=0.5cm]
+    \item[\color{primary}Arv] Mekanism för att återanvända och utöka kod genom subklasser.
+    \item[\color{primary}Basklass] Den ursprungliga klassen som funktionalitet ärvs ifrån.
+    \item[\color{primary}Subklass] Den klass som ärver från en basklass.
+\end{description}
+
+\begin{enumerate}[label=\bfseries\color{primary}Fråga \arabic*:, leftmargin=1.8cm]
+    \item \textbf{Varför använder vi arv?}
+    \\ \textit{Svar:} För att återanvända kod på ett strukturerat sätt och för att kunna bygga vidare på existerande klasser.
+    
+    \item \textbf{Hur definieras en subklass i Python?}
+    \\ \textit{Svar:} Man anger basklassen inom parentes i subklassens definition, t.ex. \texttt{class Sub(Bas):}.
+\end{enumerate}
+
+\section{Kapitel 11: OOP arv mer}
+
+\begin{description}[style=nextline, leftmargin=1cm, labelindent=0.5cm]
+    \item[\color{primary}Multipelt arv] När en klass ärver från två eller fler superklasser.
+    \item[\color{primary}Diamantproblemet] En tvetydighet i arvshierarkin som kan uppstå vid multipelt arv.
+\end{description}
+
+\begin{enumerate}[label=\bfseries\color{primary}Fråga \arabic*:, leftmargin=1.8cm]
+    \item \textbf{Vad är diamantproblemet?}
+    \\ \textit{Svar:} Det är en konflikt i arvshierarkin där en subklass ärver från två klasser som delar samma basklass, vilket skapar osäkerhet om vilken metod som ska anropas.
+    
+    \item \textbf{Varför är multipelt arv kontroversiellt?}
+    \\ \textit{Svar:} Eftersom det kan göra arvshierarkin oöverskådlig och skapa konflikter som inte finns i enkla arvsstrukturer.
+\end{enumerate}
+
+\section{Kapitel 12: Defensiv programmering}
+
+\begin{description}[style=nextline, leftmargin=1cm, labelindent=0.5cm]
+    \item[\color{primary}Defensiv programmering] Ansats för att identifiera och hantera fel tidigt.
+    \item[\color{primary}Assert] Kontroll av logiska antaganden i koden.
+    \item[\color{primary}unittest] Modul för att automatisera och systematisera kodtestning.
+\end{description}
+
+\begin{enumerate}[label=\bfseries\color{primary}Fråga \arabic*:, leftmargin=1.8cm]
+    \item \textbf{Varför använda assert?}
+    \\ \textit{Svar:} För att verifiera att programmets tillstånd stämmer och fånga logiska fel tidigt.
+    
+    \item \textbf{Vad gör unittest-modulen?}
+    \\ \textit{Svar:} Den tillhandahåller ett ramverk för att organisera och köra automatiserade tester systematiskt.
+\end{enumerate}
+
+\end{document}
