@@ -6,6 +6,7 @@
 \usepackage{booktabs}
 \usepackage{enumitem}
 \usepackage{listings}
+\usepackage{listingsutf8}
 \usepackage{xcolor}
 
 \geometry{margin=1in}
@@ -18,7 +19,10 @@
     basicstyle=\ttfamily\small,
     breaklines=true,
     showstringspaces=false,
-    frame=single
+    frame=single,
+    inputencoding=utf8,
+    extendedchars=true,
+    literate={å}{{\aa}}1 {ä}{{\"a}}1 {ö}{{\"o}}1 {Å}{{\AA}}1 {Ä}{{\"A}}1 {Ö}{{\"O}}1
 }
 
 \title{\bfseries\color{primary}Kapitel 1: Kom igång med Python\\ \large Viktiga Begrepp och Studiefrågor (DA2005)}
@@ -253,7 +257,7 @@
 
 \end{enumerate}
 
-\begin{lstlisting}
+\begin{lstlisting}[language=Python]
     def pascal(n):
     '''
     Ex:
@@ -298,17 +302,71 @@
 \section{Kapitel 9: OOP och klasser}
 
 \begin{description}[style=nextline, leftmargin=1cm, labelindent=0.5cm]
-    \item[\color{primary}Objektorientering] Paradigm där data och funktioner samlas i objekt.
+    \item[\color{primary}Objektorientering] är ett programmeringsparadigm eller programmeringsstil där man samlar data och datastrukturer med de funktioner som kan tillämpas på dem.
+    \item[\color{primary}Klass, objekt, instans] En klass är en mall för att skapa objekt. Ett objekt är en instans av en klass (dvs. ett konkret exempel på klassen). Skillnaden mellan objekt och instans är att objekt är en mer generell term, medan instans syftar på ett specifikt objekt som skapats från en klass. 
+    \item[\color{primary}Attribut] En variabel som är knuten till ett specifikt objekt och beskriver dess nuvarande tillstånd. De är som objektets variabler. Det finns instansattribut (knutna till ett specifikt objekt) och klassattribut (delade av alla objekt i klassen).
+    \item[\color{primary}Metod] En funktion som är knuten till ett specifikt objekt och kan manipulera dess attribut eller utföra operationer relaterade till objektet. De är som funktioner till objektet.
+    \item[\color{primary}Konstruktor] En speciell metod som används för att skapa och initiera objekt av en klass. I Python är konstruktorn metoden \texttt{\_\_init\_\_()}. Så när man anropar klassen igen för att skapa ett nytt objekt, körs konstruktorn automatiskt för att sätta upp objektets initiala tillstånd.
     \item[\color{primary}Metod] En funktion som är knuten till ett specifikt objekt.
     \item[\color{primary}Punktnotation] Syntaxen \texttt{objekt.metod()} för att anropa metoder.
+    \item[\color{primary}Self] En referens till det aktuella klassensobjektet, används för att komma åt objektets attribut och metoder. Kan kallas annat men self är konvention.
+    \item[\color{primary}Privata och publika attribut/metoder] Publika attribut/metoder kan nås utanför klassen, medan privata är avsedda att endast användas inom klassen. I Python markeras privata med ett understreck (\_) i början av namnet.
+    \item[\color{primary}Modulär programmering] Att dela upp program i mindre, fristående enheter (moduler) som kan återanvändas och underhållas separat vilket leder till mindre kod att ändra vid behov.
 \end{description}
 
-\begin{enumerate}[label=\bfseries\color{primary}Fråga \arabic*:, leftmargin=1.8cm]
-    \item \textbf{Vad innebär objektorientering?}
-    \\ \textit{Svar:} Att samla data och de funktioner som opererar på datan i gemensamma objekt.
+\begin{lstlisting}[language=Python]
+    # Syntax for classes
+    class KlassNamn: # Bör namnges med stor bokstav i början, va ett substantiv tex Bilar
+
+        competition = "Formula 1" # Klassattribut, delad av alla objekt i klassen
+
+        def __init__(self, arg1, arg2): # Instansatribut, unik för varje objekt genom att data läggs till
+            self.attribut1 = arg1 # Här skapas attribut/variabler tex ålder, vikt
+            self.attribut2 = arg2
+        
+        def metod(self, attribut1, attribut2): # funktion/metod som beräknar bilens värde
+            värde = self.attribut1 * 1000 + self.attribut2 * 500 # Obs även enkla funktioner som len() behövs läggas till så de funkar på din klass
+            return värde
+
+        # Lägg till enkla funktioner vi vill ha
+        def __str__(self): # __str__() är en speciell metod som definierar hur objektet ska representeras som en sträng
+            return f"Objekt med attribut1: {self.attribut1}, attribut2: {self.attribut2}, competition: {KlassNamn.competition}"
     
+    # Syntax för att skapa ett objekt (instans) av klassen
+    objekt = KlassNamn(ålder1, vikt2) # objekt kan nu manipulera hela datan från Bilar med hjälp av enkel punktnotation
+    objekt.attribut3 = värde3 # Här kan man lägga till fler attribut, obs kan skrivas över
+    objekt.metod() # Här kan man anropa metoder som redan finns i klassen
+    objekt2 = KlassNamn(ålder2, vikt3) # Här skapas ett nytt objekt med annan data som en kopia
+    print(objekt2.attribut2) # För att använda funktioner som redan finns på objektet, kalla på dess info/attribut
+\end{lstlisting}
+
+\begin{lstlisting}[language=Python]
+    # Privata och publika attribut/metoder
+    class Bil:
+        def __init__(self, ålder, vikt):
+            self._ålder = ålder  # Privata attribut (bör inte ändras utanför klassen)
+            self._vikt = vikt    # Privata attribut (bör inte ändras utanför klassen)
+
+        def beräkna_värde(self):
+            return self._ålder * 1000 + self._vikt * 500  # Publik metod som använder privata attribut
+
+    min_bil = Bil(5, 1500) # man kan manipulera med beräkna_värde() men inte ändra _ålder eller _vikt direkt om man inte skriver...
+    min_bil._ålder = 10  # ...så här, men det är inte rekommenderat eftersom det bryter mot principen om inkapsling.
+\end{lstlisting}
+
+\begin{lstlisting}[language=Python]
+    # Sets
+    a = {1, 2, 3, 4, 5} # Vilket är samma som {1, 1, 2, 3, 4, 5, 5}
+    b = {4, 5, 6, 7, 8}
+    print(a | b)  # Union
+    print(a & b)  # Intersection
+    print(a - b)  # Difference
+    print(a ^ b)  # Symmetric difference = (a - b) | (b - a)
+\end{lstlisting}
+
+\begin{enumerate}[label=\bfseries\color{primary}Fråga \arabic*:, leftmargin=1.8cm]
     \item \textbf{Varför använda objektorientering?}
-    \\ \textit{Svar:} För att organisera relaterad data på ett ställe och för att kunna definiera egna datatyper.
+    \\ \textit{Svar:} Knyta samman mycket data som relaterar till varandra (hör till samma objekt) vilket ger bra struktur med relaterad funktionalitet på samma ställe. Också att kunna definiera egna datatyper som hjälper abstraktion genom att kunna gömma detaljer.
 \end{enumerate}
 
 \section{Kapitel 10: OOP arv}
