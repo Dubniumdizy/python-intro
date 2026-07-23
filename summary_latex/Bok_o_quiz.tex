@@ -13,13 +13,25 @@
 
 \definecolor{primary}{HTML}{1B365D}
 \definecolor{secondary}{HTML}{4A777A}
+\definecolor{pykeyword}{HTML}{1F4E79}
+\definecolor{pystring}{HTML}{A23B00}
+\definecolor{pycomment}{HTML}{5C6B73}
+\definecolor{pynumber}{HTML}{6C2BD9}
 
 \lstset{
     language=Python,
     basicstyle=\ttfamily\small,
+    keywordstyle=\color{pykeyword}\bfseries,
+    stringstyle=\color{pystring},
+    commentstyle=\color{pycomment}\itshape,
+    numberstyle=\tiny\color{pynumber},
+    numbers=left,
+    numbersep=8pt,
     breaklines=true,
     showstringspaces=false,
     frame=single,
+    rulecolor=\color{secondary},
+    backgroundcolor=\color{black!2},
     inputencoding=utf8,
     extendedchars=true,
     literate={å}{{\aa}}1 {ä}{{\"a}}1 {ö}{{\"o}}1 {Å}{{\AA}}1 {Ä}{{\"A}}1 {Ö}{{\"O}}1
@@ -59,6 +71,7 @@
     \item[\color{primary}Identifierare (Identifiers)] Namn på resurser i programmet, såsom variabler, funktioner eller klasser. De måste börja med en bokstav eller understreck (\texttt{\_}) och får inte börja med en siffra.
     \item[\color{primary}Litteral] Ett fast, konstant värde som skrivs direkt i programkoden (t.ex. talet \texttt{2.5} eller strängen \texttt{'SU'}). Bör helst inte spridas okontrollerat i koden (undvik s.k. ``hårdkodning'').
 \end{description}
+
 
 \section*{Instuderingsfrågor (Review Questions)}
 
@@ -413,6 +426,596 @@
     
     \item \textbf{Vad gör unittest-modulen?}
     \\ \textit{Svar:} Den tillhandahåller ett ramverk för att organisera och köra automatiserade tester systematiskt.
+\end{enumerate}
+
+\subsection{Test kap. 1-4}
+
+\textbf{Kom ihåg!!!}
+\begin{itemize}
+    \item Stil: En förstående stil. Engelska, förklarande namn ($mean_vel$ vs v vs $mean_velocity$), syntax/semantik
+    \item Reserverade ord: and, if, for, True, False, None
+    \item Identifierare: Börja med bokstav eller understreck, inte siffra
+    \item Hårdkodning: Undvik litteraler spridda i koden, definiera en gång i en tydligt namngiven variabel
+\end{itemize}
+
+
+\textbf{Teorifrågor}:
+\begin{enumerate}
+    \item Vad är en funktions kropp, huvud, parametrar, argument, dokumentsträng
+    \item Vad är skillnaden på imperativ, funktionell, OOP programmering
+    \item När används pass vs continue: pass används som en platshållare för framtida kod, medan continue används för att hoppa över resten av koden i en loop och fortsätta med nästa iteration.
+    \item När används for vs while loopar: for används när man vet hur många iterationer
+    \item När används .copy() tex för variabler och listor: .copy() används för att skapa en ny kopia av en lista eller ett objekt, vilket gör att ändringar i den nya kopian inte påverkar originalet.
+    \item När ska man använda en lista vs en dict: array vs hash-tabell om man vill nå top och botten eller allt
+    \item Vad är hårdisk och operativsystem: hårddisken är en lagringsenhet som används för att permanent lagra data, medan operativsystemet är den programvara tex Windows, Linux, macOS
+    \item Varför ska man f.close() filer: För att frigöra resurser och säkerställa att alla data skrivs till filen korrekt.
+    \item När används filerna sys.stdin out derr: tangetnbord, konsol, felmeddelanden
+    \item Saker jag hoppat över: bra praxis för att programera tillsammans 4.4.3 samt representation av data 4.5
+\end{enumerate}
+
+
+\textbf{Live Coding}:
+\begin{enumerate}
+    \item Skapa en python fil. Kör filen samt förbättra denna kod:
+    \begin{lstlisting}
+    # Denna kod är till för att söka igenom en lista.
+    # Den kollar varje element i sekvensen ett i taget för att hitta ett specifikt värde.
+    # Om elementet finns i listan returneras positionen där det hittades.
+
+    target = 10
+
+    def search_element(items, target):
+        global target
+        """
+        Koden går igenom hela listan och jämför elementen.
+        Om rätt värde hittas sparas indexet.
+        """
+        found_index = -1
+        for i in range(len(items)):
+            if items[i] == target:
+                found_index = i
+                pass
+                break
+            else:
+                pass
+            pass
+        return found_index
+
+    # Anrop
+    resultat = search_element([3, 8, 10, 15])
+    \end{lstlisting}
+    \item Hitta alla fel i denna kod:
+    \begin{lstlisting}
+        räknare = 0
+
+        def skapa_skylt_rapport():
+            ägare = "Karolina'
+            hälsning = "Skylt skapad av" + "Karolina"
+            dekorationskant = 2 * "="
+            area = 0^2 * 3.14
+            
+            if 0.1 + 0.2 == 0.3:
+                print("Precisionen är exakt!")
+                
+            if bool(0) = True: 
+                print("Status: Giltig radie")
+                
+            if area => 50:
+                status_kod = 10
+                if status_kod = 10:
+                    rapport_text = hälsning + " - Stor skylt"
+                    
+            print(rapport_text)
+            räknare = räknare + 1
+
+        skapa_skylt_rapport()
+    \end{lstlisting}
+    \item Förklara denna kod:
+    \begin{lstlisting}
+        x, y = 2, 3
+
+        k = x // y
+        r = x % y
+
+        text = f"Resultat:\nKvot: {k}\nRest: {r}"
+        f = float(k)
+        c = 2 + 3j
+        l = x < y
+        t = None
+
+        print(text)
+        print(type(text), type(x), type(f), type(c), type(l), type(t))
+
+        help(int)
+        help(None)
+    \end{lstlisting}
+    \item Brev till framtida jag
+        Skapa ett Python-program som i en loop samlar in användardata (namn, ålder, intressen) och lagrar den i en dictionary för att generera ett "framtidsbrev". 
+        
+
+        Programmet beräknar åldern om 5 år, avgör om nuvarande ålder är jämn eller udda, samt hanterar negativa åldrar med felmeddelanden. Om åldern överstiger 100 år avbryts loopen (break) och ett meddelande om att användaren är en "Du är en legendarisk drake och vet redan allt" skrivs ut.
+
+
+        Slutligen skrivs en sammanfattning ("framtidsbrevet") ut i konsolen baserat på dictionary-datan. Loopen körs tills användaren anger "exit" eller avbryter med Ctrl + C (KeyboardInterrupt).
+    \item I denna uppgift ska du arbeta med listan 'data' som skapats i förberedelsekoden. 
+    Utför följande operationer i ordning:
+
+
+    1. Ta fram och skriv ut det näst sista värdet.
+
+    2. Lägg till ett nytt värde i slutet av listan.
+
+    3. Ta bort det 3:e elementet (index 2) med 'del'.
+    
+    4. Ta bort det 3:e elementet (index 2) med 'pop()' och skriv ut det returnerade värdet.
+    
+    5. Ta bort alla förekomster av "joker" från listan med 'remove()'.
+    
+    6. Byt ut det 3:e elementet (index 2) mot ett annat valfritt värde.
+    
+    7. Skriv ut elementen från index 3 till 9, men bara varannat element.
+    
+    8. Skriv ut listan baklänges med slicing (steglängd -1).
+    
+    9. Skriv ut alla element i listan med en 'for'-loop.
+    
+    10. Skriv ut alla element i listan med en 'while'-loop.
+    
+    11. Skriv ut hur lång listan är (antal element).
+    
+    12. Kontrollera om talet 7 finns i listan och skriv ut ett booleskt resultat.
+    
+    13. Ta fram och skriv ut vilket index "katt" har.
+    
+    14. Räkna och skriv ut hur många förekomster av "katt" som finns i listan.
+    
+    15. Vänd på listan baklänges direkt på plats med metoden '.reverse()' och skriv ut den.
+    
+    16. Lägg till strängen "hund" längst bak i listan med metoden '.insert()'.
+
+
+    Här är koden du behöver:
+    \begin{lstlisting}
+        # Förberedelsekod: Skapar startlistan med tillräckligt med element
+    data = [
+        "apa",
+        "björn",
+        "joker",
+        "katt",
+        7,
+        "joker",
+        "elefant",
+        "katt",
+        "fisk",
+        "gepardt",
+        "häst",
+        "joker",
+        10,
+    ]
+
+    print("Ursprunglig lista:", data)
+    print("-" * 50)
+    \end{lstlisting}
+
+    \item Skapa en funktion \texttt{generera\_x(start, stop, step=1)} som returnerar en lista med x-värden med \texttt{list(range(start, stop, step))}. Paramentern 'step' ska ha standardvärdet 1. Beräkna tillhörande y-värden (t.ex. y = $x^2$) och rita grafen med matplotlib.pyplot.
+    \item Givet meningen: "jag grät när jag inte fick mina björnbär" och de förbjudna bokstäverna: 'åäö'. Skriv ett Python-program som:
+            
+        1. Kontrollerar om meningen innehåller någon av de förbjudna bokstäverna.
+        
+        2. Identifierar och skriver ut alla enskilda ord i meningen som innehåller någon av dessa bokstäver.
+    \item Skapa och manipulera en dictionary (uppslagstabell) i Python genom att utfora foljande steg:
+        1. Skapa en dictionary som representerar en frugtlager-status med nycklar (fruktnamn) och varden (antal i lager).
+        2. Hamta och skriv ut antalet "applen" med hjalp av metoden .get().
+        3. Uppdatera lagersaldot for "banan" till ett nytt varde.
+        4. Iterera igenom hela din dictionary med metoden .items() och skriv ut varje nyckel och varde pa ett snyggt satt.
+    \item I denna uppgift ska du använda 'with open(...) as fil' för att hantera filer utan att behöva stänga dem manuellt. Börja med att läsa in en textfil med ett kärleksbrev till katter genom att använda metoden file.readlines(). Därefter ska du skriva om koden så att alla förekomster av ordet katt ersätts med hund, och spara det nya brevet i en helt ny fil. Avslutningsvis ska du läsa in den nya filen och skriva ut hela dess innehåll i konsolen.
+    
+    Här är förberdelsekod du behöver:
+    \begin{lstlisting}
+        # Förberedelsekod: Skapar ursprungsposten
+        meddelande = """Kära katt, du är den underbaraste katt som finns.
+        När en katt spinner blir man alltid glad.
+        Tack för att du är min katt!"""
+
+        with open("karleksbrev_katt.txt", "w") as fil:
+            fil.write(meddelande)
+    \end{lstlisting}
+    \item Skapa en 3x3-matris [[1, 2, 3], [4, 5, 6], [7, 8, 9]] med nästlade for-loopar. Skriv ut matrisen rad för rad med en nästlad loop, samt beräkna och skriv ut summan av alla element.
+    \item Gör en while loop som printar nummer och räknar ner från ner från 5 till 0
+    \item Skriv en funktion som printar odd eller even vad en integer är som tas som input
+    \item Skriv en funktion som ger boolska värden om ett ord är längre än 8 tecken eller inte
+\end{enumerate}
+
+
+Facit för live coding:
+\begin{enumerate}
+    \item Problem 1
+    \begin{lstlisting}
+        """Algoritm: Lineär sökning"""  # FIX: Bytte från # till docstring, lade till algoritmnamn och tog bort förklaring av koden
+
+        # FIX: Tagit bort den globala variabeln target = 10 (gjorts om till lokal/parameter)
+
+        def search_element(items, target=10):  # FIX: Använder standardvärde target=10 i parametern
+            # FIX: Tagit bort 'global target' och hanterar target lokalt via parametern
+            found_index = -1
+            for i in range(len(items)):
+                if items[i] == target:
+                    found_index = i
+                    # FIX: Tog bort onödig 'pass'
+                    break
+                # FIX: Tog bort onödig 'else:' och 'pass'
+            # FIX: Tog bort onödig 'pass'
+            return found_index
+
+        # Anrop
+        resultat = search_element([3, 8, 10, 15])  # Använder standardvärdet 10 automatiskt
+    \end{lstlisting}
+    \item Problem 2
+    \begin{lstlisting}
+        räknare = 0  # Global variabel
+
+        def skapa_skylt_rapport():
+            global räknare  # FIX: Lade till 'global' för att tillåta ändring av den globala variabeln inuti funktionen
+            
+            ägare = "Karolina"  # FIX: Ändrade enstaka fnutt (') till dubbelfnutt (") för att matcha strängens start
+            hälsning = "Skylt skapad av " + ägare  # FIX: Lade till mellanrum i strängen samt använde variabeln 'ägare'
+            dekorationskant = "=" * 2  # FIX: Ändrade till att multiplicera tecknet med antalet gånger (renare stil/semantik)
+            
+            radie = 3  # FIX: Bytte ut XOR-operatorn (^) mot potensoratorn (**) nedan 
+            area = radie**2 * 3.14  # FIX: Använder variabeln radie istället för hårdkodad 0
+            
+            if abs((0.1 + 0.2) - 0.3) < 1e-9:  # FIX: Bytte exakt likhet (==) mot en toleransjämförelse p.g.a. flyttals- / maskinprecision
+                print("Precisionen är exakt!")
+                
+            if not bool(0):  # FIX: Ändrade = till == (eller 'not bool(0)' eller != True) då bool(0) utvärderas till False
+                print("Status: Giltig radie")
+                
+            rapport_text = hälsning + " - Standard skylt"  # FIX: Deklarerar variabeln utanför if-blocket så den inte får för kort räckvidd (ScopeError)
+            
+            if area >= 50:  # FIX: Ändrade den felaktiga operatorn => till den korrekta >= (större än eller lika med)
+                status_kod = 10
+                if status_kod == 10:  # FIX: Bytte tilldelningsoperatorn (=) mot jämförelseoperatorn (==) inuti villkoret
+                    rapport_text = hälsning + " - Stor skylt"
+                    
+            print(rapport_text)
+            räknare = räknare + 1 
+
+            '''
+            I detta fall kommer output bli:
+            Skylt skapad av Karolina - Standard skylt
+
+            Om area >= 50, output blir:
+            Skylt skapad av Karolina - Stor skylt
+            '''
+
+        skapa_skylt_rapport()
+    \end{lstlisting}
+    \item Problem 3
+    \begin{lstlisting}
+        # 1. Parallell tilldelning av int-värden
+        x, y = 2, 3
+
+        # 2. Heltalsdivision (//) och Modulo/Rest (%)
+        kvot = x // y  # Resultat: 0
+        rest = x % y   # Resultat: 2 ty 2 = 0 * 3 + 2
+
+        # 3. Olika datatyper i Python
+        text = f"Resultat:\nKvot: {kvot}\nRest: {rest}"  # str med radbrytning (\n)
+        flyttal = float(kvot)                           # float (0.0)
+        komplext_tal = 2 + 3j                           # complex
+        är_mindre = x < y                                # bool (True)
+        inget_värde = None                              # NoneType (None)
+
+        # Skriv ut strängen
+        print(text)
+
+        # 4. Undersök typer och dokumentation med help() i terminalen
+        print("\n--- Datatyper ---")
+        print(type(text), type(x), type(flyttal), type(komplext_tal), type(är_mindre), type(inget_värde))
+        # Output: <class 'str'> <class 'int'> <class 'float'> <class 'complex'> <class 'bool'> <class 'NoneType'>
+
+        # Använd help() för att slå upp en typ eller variabel
+        help(int)
+        help(None)
+    \end{lstlisting}
+    \item Problem 4
+    \begin{lstlisting}
+    while True:
+        name = input("Namn (skriv 'exit' för att avsluta): ")
+        if name.lower() == "exit":
+            break
+
+        age_input = input("Ålder: ")
+        if age_input.lower() == "exit":
+            break
+
+        # Kontrollera om inmatningen är siffror (eller ett negativt tal)
+        if age_input.startswith("-") and age_input[1:].isdigit():
+            age = int(age_input)
+        elif age_input.isdigit():
+            age = int(age_input)
+        else:
+            print("Ogiltig inmatning! Vänligen ange ålder med siffror.")
+            continue
+
+        # Logiska villkor för ålder
+        if age < 0:
+            print(
+                """
+    --------------------------------------------------
+    FELMEDDELANDE:
+    Åldern kan inte vara negativ! Vänligen försök igen.
+    --------------------------------------------------
+    """
+            )
+            continue
+        elif age > 100:
+            print(
+                """
+    ==================================================
+    Du är en legendarisk drake och vet redan allt!
+    Programmet avslutas nu.
+    ==================================================
+    """
+            )
+            break
+
+        interests = input("Intressen: ")
+        if interests.lower() == "exit":
+            break
+
+        # Lagra informationen i en dictionary
+        user_data = {
+            "namn": name,
+            "alder": age,
+            "framtida_alder": age + 5,
+            "jamn_eller_udda": "jämnt" if age % 2 == 0 else "udda",
+            "intressen": interests,
+        }
+
+        # Utskrift av framtidsbrevet med en flerradig sträng
+        framtidsbrev = f"""
+    ==================================================
+                    FRAMTIDSBREV
+    ==================================================
+    Hej {user_data['namn']}!
+
+    Du är idag {user_data['alder']} år gammal, vilket är ett {user_data['jamn_eller_udda']} tal.
+    Om 5 år kommer du att vara {user_data['framtida_alder']} år gammal.
+
+    Dina registrerade intressen:
+    - {user_data['intressen']}
+    ==================================================
+    """
+        print(framtidsbrev)
+    \end{lstlisting}
+    \item Problem 5
+    \begin{lstlisting}
+    # Förberedelsekod
+    data = [
+        "apa",
+        "björn",
+        "joker",
+        "katt",
+        7,
+        "joker",
+        "elefant",
+        "katt",
+        "fisk",
+        "gepardt",
+        "häst",
+        "joker",
+        10,
+    ]
+
+    # 1. Näst sista värdet
+    print("1. Näst sista värdet:", data[-2])
+
+    # 2. Lägg till ett värde i slutet (append)
+    data.append("orm")
+    print("2. Efter tillägg av 'orm':", data)
+
+    # 3. Ta bort det 3:e värdet (index 2) med del
+    del data[2]
+    print("3. Efter del data[2]:", data)
+
+    # 4. Ta bort det 3:e värdet (index 2) med pop och skriv ut returvärdet
+    borttaget_varde = data.pop(2)
+    print(f"4. Borttaget värde med pop(2): {borttaget_varde}")
+    print("   Listan efter pop:", data)
+
+    # 5. Ta bort alla 'joker' med remove
+    while "joker" in data:
+        data.remove("joker")
+    print("5. Efter att alla 'joker' tagits bort:", data)
+
+    # 6. Byt ut det 3:e värdet (index 2) mot ett annat värde
+    data[2] = "TIGER"
+    print("6. Efter byte av 3:e värdet till 'TIGER':", data)
+
+    # 7. Print index 3 till 9 men bara varannan (slicing: [3:10:2])
+    print("7. Index 3 till 9 (varannat element):", data[3:10:2])
+
+    # 8. Printa ut listan baklänges med slicing
+    print("8. Listan baklänges (slicing):", data[::-1])
+
+    # 9. Printa ut listan med en for-loop
+    print("9. Utskrift med for-loop:")
+    for item in data:
+        print(item, end=" ")
+    print()
+
+    # 10. Printa ut listan med en while-loop
+    print("10. Utskrift med while-loop:")
+    i = 0
+    while i < len(data):
+        print(data[i], end=" ")
+        i += 1
+    print()
+
+    # 11. Hur lång är listan?
+    print("11. Längd på listan:", len(data))
+
+    # 12. Finns 7 i listan?
+    print("12. Finns 7 i listan?:", 7 in data)
+
+    # 13. Vilket index har 'katt'?
+    print("13. Index för 'katt':", data.index("katt"))
+
+    # 14. Hur många 'katt' finns i listan?
+    print("14. Antal 'katt' i listan:", data.count("katt"))
+
+    # 15. Printa listan baklänges med .reverse()
+    data.reverse()
+    print("15. Listan efter .reverse():", data)
+
+    # 16. Lägg till en 'hund' på slutet med insert
+    data.insert(len(data), "hund")
+    print("16. Efter .insert() på slutet med 'hund':", data)
+    \end{lstlisting}
+    \item Problem 6
+    \begin{lstlisting}
+        import matplotlib.pyplot as plt
+
+        # Funktion med standardvärde step=1
+        def generera_x(start, stop, step=1):
+            return list(range(start, stop, step))
+
+        # 1. Standardläge (steg 1)
+        x_val = generera_x(0, 10)
+        y_val = [x**2 for x in x_val]
+
+        # 2. Om användaren anger eget steg (t.ex. steg 2)
+        x_anpassad = generera_x(0, 10, step=2)
+        y_anpassad = [x**2 for x in x_anpassad]
+
+        # Rita grafen
+        plt.plot(x_val, y_val, label="Standard (steg 1)")
+        plt.plot(x_anpassad, y_anpassad, label="Anpassad (steg 2)")
+
+        plt.title("Graf med range() och Matplotlib")
+        plt.xlabel("x")
+        plt.ylabel("y")
+        plt.legend()
+        plt.grid(True)
+        plt.show()
+    \end{lstlisting}
+    \item Problem 7
+    \begin{lstlisting}
+        mening = "jag grät när jag inte fick mina björnbär"
+        forbjudna_bokstaver = "åäö"
+
+        # 1. Undersök om meningen innehåller någon av bokstäverna
+        har_forbjuden = False
+        for bokstav in forbjudna_bokstaver:
+            if bokstav in mening:
+                har_forbjuden = True
+
+        print("Innehåller meningen förbjudna bokstäver?:", har_forbjuden)
+
+        # 2. Hitta och skriv ut orden
+        ord_lista = mening.split()
+        ord_med_forbjudna = []
+
+        for ordet in ord_lista:
+            # Kolla om ordet innehåller å, ä eller ö
+            if (
+                ("å" in ordet)
+                or ("ä" in ordet)
+                or ("ö" in ordet)
+            ):
+                ord_med_forbjudna.append(ordet)
+
+        print("Ord som innehåller förbjudna bokstäver:", ord_med_forbjudna)
+    \end{lstlisting}
+    \item Problem 8
+    \begin{lstlisting}
+        # 1. Skapa en dictionary med nycklar och värden
+        lager = {"äpple": 15, "banan": 8, "päron": 12, "apelsin": 20}
+
+        print("Ursprunglig dictionary:", lager)
+
+        # 2. Ta fram ett värde med .get()
+        antal_applen = lager.get("äpple")
+        print("Antal äpplen i lager:", antal_applen)
+
+        # 3. Uppdatera ett värde
+        lager["banan"] = 25
+        print("Efter uppdatering av banan:", lager)
+
+        # 4. Loopa över alla par med .items()
+        print("\n--- LAGERSTATUS ---")
+        for frukt, antal in lager.items():
+            print(f"Frukt: {frukt:<8} | Antal i lager: {antal}")
+    \end{lstlisting}
+    \item Problem 9
+    \begin{lstlisting}
+        # 1. Läs in kattbrevet med readlines() och with open
+        with open("karleksbrev_katt.txt", "r") as fil:
+            rader = fil.readlines()
+
+        # 2. Ersätt 'katt' med 'hund' på varje rad och spara i en ny fil
+        with open("karleksbrev_hund.txt", "w") as ny_fil:
+            for rad in rader:
+                ny_rad = rad.replace("katt", "hund").replace("Katt", "Hund")
+                ny_fil.write(ny_rad)
+
+        # 3. Läs in den nya filen och printa ut i konsolen
+        with open("karleksbrev_hund.txt", "r") as ny_fil:
+            innehall = ny_fil.read()
+            print(innehall)
+    \end{lstlisting}
+    \item Problem 10
+    \begin{lstlisting}
+        # 1. Bygg 3x3-matrisen
+        matris = []
+        num = 1
+        for r in range(3):
+            rad = []
+            for k in range(3):
+                rad.append(num)
+                num += 1
+            matris.append(rad)
+
+        # 2. Skriv ut matrisen och beräkna summan
+        total = 0
+        for rad in matris:
+            for tal in rad:
+                print(tal, end=" ")
+                total += tal
+            print()
+
+        print("Summa:", total)
+    \end{lstlisting}
+    \item Problem 11
+    \begin{lstlisting}
+        # 1. While loop som räknar ner från 5 till 0
+        nummer = 5
+        while nummer >= 0:
+            print(nummer)
+            nummer -= 1
+    \end{lstlisting}
+    \item Problem 12
+    \begin{lstlisting}
+        def odd_or_even(num):
+            if num % 2 == 0:
+                print(f"{num} är even")
+            else:
+                print(f"{num} är odd")
+
+        # Exempelanrop
+        odd_or_even(4)  # Output: 4 är even
+        odd_or_even(7)  # Output: 7 är odd
+    \end{lstlisting}
+    \item Problem 13
+    \begin{lstlisting}
+        def is_longer_than_8(word):
+            return len(word) > 8
+
+        # Exempelanrop
+        print(is_longer_than_8("programmering"))  # Output: True
+        print(is_longer_than_8("kort"))           # Output: False
+    \end{lstlisting}
 \end{enumerate}
 
 \end{document}
