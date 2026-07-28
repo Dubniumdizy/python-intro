@@ -1,0 +1,271 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage[swedish]{babel}
+\usepackage[a4paper,margin=2.5cm]{geometry}
+\usepackage{listings}
+\usepackage{xcolor}
+
+% Färginställningar för kodblock
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.96,0.96,0.96}
+
+\lstdefinestyle{pythonstyle}{
+    backgroundcolor=\color{backcolour},   
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{magenta},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\ttfamily\footnotesize,
+    breaklines=true,
+    captionpos=b,
+    keepspaces=true,
+    inputencoding=utf8,
+    extendedchars=true,
+    literate=
+      {å}{{\aa}}1 {ä}{{\"a}}1 {ö}{{\"o}}1
+      {Å}{{\AA}}1 {Ä}{{\"A}}1 {Ö}{{\"O}}1,
+    showspaces=false,
+    showstringspaces=false,
+    showtabs=false,
+    tabsize=4
+}
+
+\lstset{style=pythonstyle}
+
+\begin{document}
+
+\begin{center}
+\Large\textbf{Komplett Lathund: Test kap. 1--4 (Teori, Syntax \& Loopar)}
+\end{center}
+
+\bigskip
+
+\subsection*{1. God Praxis \& Kodstil (PEP 8)}
+\begin{itemize}
+    \item \textbf{Namngivning:} Använd engelska, förklarande namn i \texttt{snake\_case} (t.ex. \texttt{mean\_velocity} istället för \texttt{v} eller \texttt{mean\_vel}).
+    \item \textbf{Hårdkodning:} Undvik värden/litteraler spridda i koden. Definiera dem en gång i tydligt namngivna variabler längst upp.
+    \item \textbf{Globala variabler:} Undvik nyckelordet \texttt{global}. Skicka in data via funktionens parametrar och returnera värden med \texttt{return}.
+    \item \textbf{Dokumentsträng (Docstring):} Skriv \texttt{"""Beskrivning av funktionen"""} direkt under funktionshuvudet.
+\end{itemize}
+
+\subsection*{2. f-strings (Formaterade strängar): Vad betyder \texttt{f} och hur är syntaxen?}
+Bokstaven \texttt{f} framför en sträng står för \textbf{formatted string} (f-string). 
+
+
+Det gör att du kan bädda in Python-variabler och uttryck direkt inuti texten genom att omsluta dem med måsvingar \texttt{\{...\}}. Python beräknar automatiskt värdet inuti \texttt{\{...\}} och omvandlar det till text vid utskrift.
+
+\begin{lstlisting}[language=Python]
+namn = "Karolina"
+alder = 22
+
+# SÄTT 1: Med f-string (REN, TYDLIG OCH REKOMMENDERAD SYNTAX)
+print(f"Hej! Jag heter {namn} och ar {alder} ar gammal.")
+
+# SÄTT 2: Gamla / omständliga sättet (utan f-string)
+print("Hej! Jag heter " + namn + " och ar " + str(alder) + " ar gammal.")
+
+
+--- VAD DU KAN GÖRA INUTI { ... } ---
+
+# 1. Direkt beräkning/matematik:
+print(f"Om 5 ar ar jag {alder + 5} ar.")  # Skriver ut: Om 5 ar ar jag 27 ar.
+
+# 2. Anropa metoder eller funktioner:
+print(f"Namn i stora bokstaver: {namn.upper()}")  # Skriver ut: KAROLINA
+
+# 3. Formatera flyttal/decimaler (t.ex. avrunda till 2 decimaler med :.2f):
+pi = 3.14159265
+print(f"Pi med tva decimaler: {pi:.2f}")  # Skriver ut: 3.14
+
+# 4. Formatera dictionaries:
+bruker = {"namn": "Anna", "alder": 30}
+# OBS: Anvand enkelfnuttar (') inuti måsvingarna om strängen har dubbelfnuttar (") på utsidan!
+print(f"Anvandaren heter {bruker['namn']}.")
+\end{lstlisting}
+
+\subsection*{3. Funktioner vs. Metoder med Punkt (\texttt{.funktion()})}
+\begin{itemize}
+    \item \textbf{Vanlig funktion -- \texttt{funktion(objekt)}:} Du skickar in objektet som ett argument i funktionen.
+\begin{lstlisting}[language=Python]
+len(min_lista)   # Beräknar längden på listan
+print("Hej")     # Skriver ut texten
+type(x)          # Returnerar datatypen för x
+\end{lstlisting}
+    \item \textbf{Metod med punkt -- \texttt{objekt.metod()}:} Metoden "hör till" objektets datatyp. Du ber objektet utföra en handling på sig själv.
+\begin{lstlisting}[language=Python]
+text = "katt"
+text.upper()             # Returnerar "KATT" (strängmetod)
+lista.append("hund")     # Lägger till i slutet av listan (listmetod)
+lager.get("applen")      # Hämtar värde säkert från dictionary
+\end{lstlisting}
+\end{itemize}
+
+\subsection*{4. Syntax för Loopar (\texttt{for}, \texttt{while} \& \texttt{range})}
+\begin{itemize}
+    \item \textbf{Hur \texttt{range()} fungerar:} \texttt{range(start, stop, step)} genererar en sekvens av tal. \textbf{Viktigt:} Sluttalet (\texttt{stop}) ingår \textbf{ALDRIG}!
+    \begin{itemize}
+        \item \texttt{range(5)} $\rightarrow$ 0, 1, 2, 3, 4
+        \item \texttt{range(2, 6)} $\rightarrow$ 2, 3, 4, 5
+        \item \texttt{range(0, 10, 2)} $\rightarrow$ 0, 2, 4, 6, 8 (steglängd 2)
+    \end{itemize}
+
+    \item \textbf{\texttt{for}-loop:} Används när du vet hur många iterationer som ska köras, eller när du vill gå igenom varje element i en sekvens.
+\begin{lstlisting}[language=Python]
+# 1. Gå igenom element i en lista
+djur_lista = ["katt", "hund", "kanin"]
+for djur in djur_lista:
+    print("Djur:", djur)
+
+# 2. Loopa med range(start, stop, step)
+for i in range(0, 10, 2):  # Går från 0 till 8 med steg 2
+    print("Tal:", i)
+\end{lstlisting}
+
+    \item \textbf{\texttt{while}-loop med \texttt{True}, \texttt{input()} och \texttt{break}:} Används för kontinuerlig inmatning tills användaren aktivt avbryter (t.ex. genom att skriva \texttt{"exit"}).
+\begin{lstlisting}[language=Python]
+while True:
+    svar = input("Ange ett ord (eller 'exit' för att avsluta): ")
+    if svar.lower() == "exit":
+        print("Avslutar programmet...")
+        break  # Hoppar direkt ut ur loopen
+    print("Du skrev:", svar)
+\end{lstlisting}
+
+    \item Extra om for vs while loop. Användning av Index: \texttt{for}-loop omgjord till \texttt{while}-loop
+    Detta exempel visar hur man går igenom en lista med index via en \texttt{for}-loop respektive hur man skriver om samma logik med en \texttt{while}-loop där indexet täcks med \texttt{i = 0} och \texttt{i += 1}.
+
+    \begin{lstlisting}[language=Python]
+        frukter = ["äpple", "banan", "päron"]
+
+        # SÄTT 1: for-loop med range(len(...))
+        for i in range(len(frukter)):
+            print(f"Index {i}: {frukter[i]}")
+
+        # SÄTT 2: Omgjord till while-loop
+        i = 0                        # 1. Starta räknaren på index 0
+        while i < len(frukter):      # 2. Loopa så länge i är mindre än listans längd
+            print(f"Index {i}: {frukter[i]}")
+            i += 1                   # 3. GLÖM INTE att öka räknaren varje varv!
+    \end{lstlisting}
+
+    \item \textbf{\texttt{break}, \texttt{continue} och \texttt{pass}:}
+    \begin{itemize}
+        \item \texttt{break}: Avbryter loopen helt och hoppar ut.
+        \item \texttt{continue}: Hoppar över resten av nuvarande varv och går till nästa iteration.
+        \item \texttt{pass}: Platshållare för framtida kod (gör ingenting).
+    \end{itemize}
+\begin{lstlisting}[language=Python]
+for tal in range(5):
+    if tal == 2:
+        continue  # Hoppar över utskriften för talet 2
+    if tal == 4:
+        break     # Avbryter loopen helt när talet är 4
+    print(tal)
+\end{lstlisting}
+\end{itemize}
+
+\subsection*{5. Nyckelordet \texttt{in}}
+Nyckelordet \texttt{in} används i två huvudsakliga sammanhang:
+\begin{enumerate}
+    \item \textbf{Medlemskapstest (booleskt resultat):} Kontrollerar om ett element finns i en lista, sträng eller dictionary (returnerar \texttt{True} eller \texttt{False}).
+    \item \textbf{Iteration:} Används i \texttt{for}-loopar för att gå igenom sekvenser.
+\end{enumerate}
+\begin{lstlisting}[language=Python]
+frukter = ["äpple", "banan", "päron"]
+
+# 1. Medlemskapstest (blir True/False)
+finns_banan = "banan" in frukter  # True
+har_bokstav = "a" in "katt"       # True
+finns_nyckel = "applen" in {"applen": 5} # True
+
+# 2. Iteration i for-loop
+for frukt in frukter:
+    print(frukt)
+\end{lstlisting}
+
+\subsection*{6. Operatörer, Modulo, Boolska Uttryck \& Fallgropar}
+\begin{itemize}
+    \item \textbf{Modulo-operatorn (\texttt{\%}):} Beräknar \textbf{resten} vid heltalsdivision. Används ofta för att kontrollera om ett tal är jämnt eller udda.
+\begin{lstlisting}[language=Python]
+tal = 7
+if tal % 2 == 0:
+    print("Talet är jämnt")
+else:
+    print("Talet är udda")
+\end{lstlisting}
+
+    \item \textbf{Uttryck som blir \texttt{True} eller \texttt{False} direkt:} Undvik onödiga \texttt{if/else}-satser för att returnera booleska värden.
+\begin{lstlisting}[language=Python]
+# DÅLIG STIL:
+def is_longer_bad(word):
+    if len(word) > 8:
+        return True
+    else:
+        return False
+
+# BRA STIL (returnerar uttryckets booleska resultat direkt):
+def is_longer(word):
+    return len(word) > 8
+\end{lstlisting}
+
+    \item \textbf{Reserverade ord (Keywords):} Får ej användas som variabler: \texttt{and}, \texttt{if}, \texttt{for}, \texttt{True}, \texttt{False}, \texttt{None}, \texttt{break}, \texttt{continue}, \texttt{pass}, \texttt{def}, \texttt{return}, \texttt{with}.
+    \item \textbf{Identifierare:} Måste börja med en bokstav eller understreck (\texttt{\_}), aldrig med en siffra.
+    \item \textbf{Vanliga operatorfel:} Potens skrivs med \texttt{**} (inte \texttt{\^{}}), större än/lika med skrivs \texttt{>=} (inte \texttt{=>}), och jämförelse är \texttt{==} (inte \texttt{=}).
+    \item \textbf{Flyttalsprecision:} Jämför inte flyttal med \texttt{==} (p.g.a. \texttt{0.1 + 0.2 != 0.3}). Använd en tolerans: \texttt{abs((0.1 + 0.2) - 0.3) < 1e-9}.
+\end{itemize}
+
+\subsection*{7. Teoribegrepp \& Filhantering}
+\begin{itemize}
+    \item \textbf{Funktionsstruktur:}
+    \begin{itemize}
+        \item \textit{Huvud:} \texttt{def min\_funktion(param1, param2=10):}
+        \item \textit{Kropp:} Den indenterade koden i funktionen.
+        \item \textit{Parametrar vs Argument:} Parametrar är variablerna i funktionens definition; Argument är de faktiska värdena som skickas vid anrop.
+    \end{itemize}
+    \item \textbf{Paradigmer:} \textit{Imperativ} (steg-för-steg ändring av tillstånd), \textit{Funktionell} (rena funktioner utan sidoeffekter), \textit{OOP} (klasser och objekt med attribut/metoder).
+    \item \textbf{Filhantering -- \texttt{with open(...)} vs. enbart \texttt{open(...)}:}
+    \begin{itemize}
+        \item Enbart \texttt{open()}: Kräver manuell \texttt{.close()}. Om programmet kraschar stängs inte filen.
+        \item \texttt{with open(...)} (\textbf{REKOMMENDERAT}): Stänger filen automatiskt när blocket avslutas, vilket frigör resurser och säkrar sparandet.
+    \end{itemize}
+\begin{lstlisting}[language=Python]
+# UTAN with (Dålig praxis - kräver fil.close()):
+fil = open("brev.txt", "r")
+innehall = fil.read()
+fil.close()
+
+# MED with (Bra praxis - stänger automatiskt):
+with open("brev.txt", "r") as fil:
+    innehall = fil.read()
+\end{lstlisting}
+    \item \textbf{System-strömmar:} \texttt{sys.stdin} (inmatning/tangentbord), \texttt{sys.stdout} (utmatning/konsol), \texttt{sys.stderr} (felmeddelanden).
+    \item \textbf{Lokal kopia:} Använd \texttt{.copy()} för listor/objekt för att skapa en ny oberoende kopia i minnet så att ändringar inte påverkar originalet.
+\end{itemize}
+
+\subsection*{8. Snabbreferens för Datastrukturer}
+\begin{itemize}
+    \item \textbf{Listor (Muterbara/Ändringsbara):}
+\begin{lstlisting}[language=Python]
+data = ["katt", 7, "joker"]
+data.append("hund")       # Lägg till sist
+data.insert(1, "apa")     # Lägg till på index 1
+data.pop(2)               # Ta bort och returnera element på index 2
+del data[0]               # Ta bort element på index 0
+data.remove("joker")      # Ta bort första förekomsten av "joker"
+data.reverse()            # Ändra listan på plats
+baklanges = data[::-1]    # Ändra listan med slicing
+\end{lstlisting}
+
+    \item \textbf{Dictionaries (Uppslagstabeller):}
+\begin{lstlisting}[language=Python]
+lager = {"applen": 10, "bananer": 5}
+lager["bananer"] = 8          # Uppdatera värde
+antal = lager.get("applen")   # Hämtar värde säkert
+for frukt, antal in lager.items(): # Loopa över nyckel och värde
+    print(frukt, antal)
+\end{lstlisting}
+\end{itemize}
+
+\end{document}

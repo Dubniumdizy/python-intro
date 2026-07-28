@@ -40,5 +40,6 @@
             ]
         }
     ],
-    "latex-workshop.latex.recipe.default": "MiKTeX pdfTeX"
+    "latex-workshop.latex.recipe.default": "MiKTeX pdfTeX",
+    "editor.fontFamily": "'Comic Sans MS', 'Comic Sans', 'Segoe UI', 'Arial', sans-serif"
 }

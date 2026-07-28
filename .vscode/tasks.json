@@ -4,14 +4,8 @@
     {
       "label": "Build LaTeX PDF (current file)",
       "type": "shell",
-      "command": "latexmk",
+      "command": "$pdf='${fileBasenameNoExtension}.pdf'; pdflatex -interaction=nonstopmode -synctex=1 -file-line-error -halt-on-error ${fileBasename}; if (Test-Path $pdf) { Write-Host \"PDF generated: $pdf\"; exit 0 } else { exit 1 }",
       "args": [
-        "-pdf",
-        "-interaction=nonstopmode",
-        "-synctex=1",
-        "-file-line-error",
-        "-halt-on-error",
-        "${fileBasename}"
       ],
       "options": {
         "cwd": "${fileDirname}"
