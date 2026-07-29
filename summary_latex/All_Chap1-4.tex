@@ -268,4 +268,266 @@ for frukt, antal in lager.items(): # Loopa över nyckel och värde
 \end{lstlisting}
 \end{itemize}
 
+\section*{Extra Quiz Questions and answers}
+
+\subsection*{Your questions}
+
+\begin{enumerate}
+\item When using int, float and str, can they be used together in calculations or other operations? If so, when do I need to convert between them, and which conversions are allowed?
+
+\textbf{Answer:} In Python, you can use int, float, and str together in certain operations, but you need to be careful about the types.
+
+
+- You can perform arithmetic operations between int and float without any issues. Python will automatically convert the int to a float if necessary. For example, `3 + 2.5` will yield `5.5`.
+
+
+- However, you cannot directly perform arithmetic operations between str and int/float. If you want to combine a string with a number, you need to convert the number to a string using `str()`. For example, `str(3) + " apples"` will yield `"3 apples"`.
+
+
+- Conversely, if you have a string that represents a number (like `"3"`), you can convert it to an int or float using `int()` or `float()`. For example, `int("3") + 2` will yield `5`.
+
+
+- The main issue is when it comes to how the computer stores data. It stores it in binary and can max take around 15-17 digits of precision for floats. So if you do a float + float == float then it will be true, but if you do a float + float == int then it will be false because the float is not exactly equal to the int. So you need to be careful when comparing floats and ints. 
+
+\item Could we focus on problem 10 today and practise nested for loops? I am unsure how to structure one loop inside another, what each loop controls and how to calculate the sum while going through every element in the matrix.
+
+\textbf{Answer:} Nested for loops are used when you need to iterate over multi-dimensional data structures, like matrices (2D lists). The outer loop typically iterates over the rows, while the inner loop iterates over the columns of each row. To calculate the sum while going through every element, you can initialize a variable before the loops and then add each element to it inside the inner loop. For example:
+\begin{lstlisting}[language=Python]
+matrix = [[1, 2, 3], [4, 5, 6]]
+total = 0
+for row in matrix:
+    for value in row: # Even if it's every element in each column of the row it is written as "value in row" because the inner loop is iterating over each element in the current row.
+        total += value
+print(total)  # Output: 21
+\end{lstlisting}
+
+You can also build a matrix with this method:   
+\begin{lstlisting}[language=Python]
+matrix = []
+num = 1
+for i in range(3):  # Outer loop for rows
+    row = []
+    for j in range(4):  # Inner loop for columns
+        row.append(num) # This adds current nr: 1, 2, 3, 4
+        num += 1
+    matrix.append(row) # This adds row to matrix: 1, 2, 3
+\end{lstlisting}
+
+In math this would be $\sum_{i=0}^{2}\sum_{j=0}^{3} num_{ij} = 30$ to get the sum of the matrix.
+
+\item For problem 9, I do not understand how the information from the original file is stored or how to change it before writing it into a new file. Could we go through the difference between read(), readreadline() and readlinesand how replace() is used on the contents of a file?
+
+\textbf{Answer:} When you read from a file in Python, you have several methods to choose from:
+
+- `read()`: This method reads the entire content of the file as a single STRING.
+
+
+- `readline()`: This method reads the next LINE from the file.
+
+
+- `readlines()`: This method reads all the LINES of the file into a LIST of string.
+
+
+- `replace()`: This method can be used on the string returned by `read()` or `readline()` to replace parts of the content. For example:
+\begin{lstlisting}[language=Python]
+with open("brev.txt", "r") as fil:
+    innehall = fil.read()
+innehall = innehall.replace("gammalt", "nytt")
+with open("brev_nytt.txt", "w") as fil:
+    fil.write(innehall)
+\end{lstlisting}
+
+\item For problem 6, I do not understand how start, stop and step are passed into the function or how the generated x-values are then used to calculate the y-values. Could we go through how the function’s output becomes the data used by matplotlib and how to make sure the x- and y-value lists match correctly?
+
+\textbf{Answer:} When you define a function that takes `start`, `stop`, and `step` as parameters, you can use these values to generate a list of x-values using the `range()` function or a list comprehension (which is when you create a list in a single line of code, e.g., `[x for x in range(start, stop, step)]`). The generated x-values can then be used to calculate corresponding y-values based on a mathematical function.
+
+For example, if you want to calculate y-values for a linear function `y = 2x + 1`, you can do the following:
+\begin{lstlisting}[language=Python]
+def generate_linear_data(start, stop, step):
+    x_values = list(range(start, stop, step))
+    y_values = [2 * x + 1 for x in x_values]
+    return x_values, y_values
+
+x, y = generate_linear_data(0, 10, 1)
+print(x)  # Output: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+print(y)  # Output: [1, 3, 5, 7, 9, 11, 13, 15, 17, 19]
+\end{lstlisting} 
+
+When you pass the `x` and `y` lists to matplotlib for plotting, it will plot the points correctly as long as both lists have the same length. The `$x\_values$` and `$y\_values$` are generated in a way that ensures they correspond to each other, so each x-value has a matching y-value. 
+\end{enumerate}
+
+\section*{Övningsuppgifter: Kap 1--4}
+
+\subsection*{Del 1: Hitta fel och förbättra koden (4 uppgifter)}
+
+\paragraph{Övning 1 (Kodstil, Globala variabler \& Namngivning)}
+Identifiera minst tre fel/brister mot PEP 8 och god praxis i koden nedan och skriv om koden så att den följer god praxis.
+\begin{lstlisting}
+x = 1.25 # MOMS
+def calc(v):
+    global x
+    res = v * x
+    return res
+print("Total:", calc(100))
+\end{lstlisting}
+
+\paragraph{Övning 2 (Boolska uttryck \& Flyttalsprecision)}
+Identifiera två fel/brister i koden (dålig stil samt en logisk fallgrop vid jämförelse) och skriv en korrelerad version.
+\begin{lstlisting}
+def is_equal_and_long(val1, val2, text):
+    if (val1 + val2) == 0.3:
+        if len(text) > 5:
+            return True
+        else:
+            return False
+    return False
+\end{lstlisting}
+
+\paragraph{Övning 3 (Filhantering \& Metoder/Strängar)}
+Koden nedan har problem med resurshantering och föråldrad strängformatering. Hitta felen och skriv om med \texttt{with open} och f-string.
+\begin{lstlisting}
+f = open("data.txt", "r")
+text = f.read
+print("Filens innehall ar: " + text + " och ar klar.")
+f.close()
+\end{lstlisting}
+
+\paragraph{Övning 4 (Loopar, Index \& Oändlig loop)}
+Koden ska skriva ut alla element i listan med deras index via en \texttt{while}-loop, men innehåller ett allvarligt syntax/logikfel. Hitta felet och rätta till det.
+\begin{lstlisting}
+items = ["a", "b", "c"]
+i = 0
+while i < len(items):
+    print(f"Index {i}: {items[i]}")
+    # Saknar något här!
+\end{lstlisting}
+
+\bigskip
+\subsection*{Del 2: Tillämpning och kodskrivning (6 uppgifter)}
+
+\paragraph{Övning 5 (f-strings \& Dictionaries)}
+Skriv ett skript (max 10 rader) som har en dictionary \texttt{user = \{"name": "anna", "score": 8.1234\}}. Skriv ut texten \texttt{"User ANNA scored 8.12 points."} med en f-string där namnet blir med stora bokstäver och poängen avrundas till 2 decimaler.
+
+\paragraph{Övning 6 (Funktioner vs. Metoder)}
+Skriv ett skript (max 10 rader) som skapar en lista med tre djur. Använd en inbyggd funktion för att ta reda på listans längd, och en listmetod för att lägga till ett nytt djur i slutet.
+
+\paragraph{Övning 7 (for-loop med \texttt{range})}
+Skriv en \texttt{for}-loop med \texttt{range(start, stop, step)} som räknar nedåt från 10 till 2 (inklusive 2) med steglängd 2 och skriver ut varje tal.
+
+\paragraph{Övning 8 (\texttt{while}-loop med \texttt{break} och \texttt{continue})}
+Skriv en \texttt{while True}-loop som ber om ett tal från användaren. Om talet är ett jämnt tal, hoppa över utskriften. Om talet är större än 100, avbryt loopen.
+
+\paragraph{Övning 9 (Omvandla \texttt{for} till \texttt{while})}
+Omvandla följande \texttt{for}-loop till en \texttt{while}-loop med manuell indexräknare (\texttt{i = 0}):
+\begin{lstlisting}
+colors = ["red", "green", "blue"]
+for i in range(len(colors)):
+    print(colors[i])
+\end{lstlisting}
+
+\paragraph{Övning 10 (Nyckelordet \texttt{in} \& Säker hämtning)}
+Skriv ett skript som skapar en dictionary \texttt{stock = \{"apples": 5\}}. Kontrollera om \texttt{"bananas"} finns i nycklarna, och hämta antalet bananer utan att koden kraschar om nyckeln saknas.
+
+\section*{Lösningsförslag: Kap 1--4}
+
+\subsection*{Del 1: Hitta fel och förbättra koden}
+
+\paragraph{Lösning Övning 1}
+\textbf{Fel:} Otydliga variabelnamn (\texttt{x}, \texttt{v}, \texttt{res}), användning av \texttt{global}, avsaknad av docstring och hårdkodad global variabel i gemener. \\
+\textbf{Förbättrad kod:}
+\begin{lstlisting}
+VAT_RATE = 1.25  # Global konstant längst upp
+
+
+def calculate_total_price(net_price):
+    """Beräknar totalpriset inklusive moms."""
+    return net_price * VAT_RATE
+
+
+total_price = calculate_total_price(100)
+print(f"Total: {total_price}")
+\end{lstlisting}
+
+\paragraph{Lösning Övning 2}
+\textbf{Fel:} Onödig \texttt{if/else} för booleskt returvärde samt direkt jämförelse av flyttal med \texttt{==} ($0.1 + 0.2 \neq 0.3$ i Python). \\
+\textbf{Förbättrad kod:}
+\begin{lstlisting}
+def is_equal_and_long(val1, val2, text):
+    """Jämför flyttal säkert med tolerans och returnerar uttryck direkt."""
+    is_sum_correct = abs((val1 + val2) - 0.3) < 1e-9
+    return is_sum_correct and len(text) > 5
+\end{lstlisting}
+
+\paragraph{Lösning Övning 3}
+\textbf{Fel:} Saknade parenteser vid metodanrop (\texttt{f.read} istället för \texttt{f.read()}), omständlig strängkonkatering samt avsaknad av \texttt{with open} (vilket gör att filen inte stängs om ett fel uppstår). \\
+\textbf{Förbättrad kod:}
+\begin{lstlisting}
+with open("data.txt", "r") as file_handle:
+    content = file_handle.read()
+    print(f"Filens innehåll är: {content} och är klar.")
+\end{lstlisting}
+
+\paragraph{Lösning Övning 4}
+\textbf{Fel:} Räknaren \texttt{i} inkrementeras inte, vilket leder till en oändlig loop. \\
+\textbf{Förbättrad kod:}
+\begin{lstlisting}
+items = ["a", "b", "c"]
+i = 0
+while i < len(items):
+    print(f"Index {i}: {items[i]}")
+    i += 1  # Viktigt: öka räknaren varje varv
+\end{lstlisting}
+
+\bigskip
+\subsection*{Del 2: Tillämpning och kodskrivning}
+
+\paragraph{Lösning Övning 5}
+\begin{lstlisting}
+user = {"name": "anna", "score": 8.1234}
+formatted_text = f"User {user['name'].upper()} scored {user['score']:.2f} points."
+print(formatted_text)
+\end{lstlisting}
+
+\paragraph{Lösning Övning 6}
+\begin{lstlisting}
+animals = ["katt", "hund", "kanin"]
+list_length = len(animals)  # Inbyggd funktion len()
+animals.append("marsvin")   # Listmetod .append()
+print(f"Längd: {list_length}, Lista: {animals}")
+\end{lstlisting}
+
+\paragraph{Lösning Övning 7}
+\begin{lstlisting}
+for number in range(10, 1, -2):
+    print(f"Tal: {number}")
+\end{lstlisting}
+
+\paragraph{Lösning Övning 8}
+\begin{lstlisting}
+while True:
+    number = int(input("Ange ett tal: "))
+    if number % 2 == 0:
+        continue  # Hoppa över jämna tal
+    if number > 100:
+        break     # Avbryt om talet är över 100
+    print(f"Udda tal: {number}")
+\end{lstlisting}
+
+\paragraph{Lösning Övning 9}
+\begin{lstlisting}
+colors = ["red", "green", "blue"]
+i = 0
+while i < len(colors):
+    print(colors[i])
+    i += 1
+\end{lstlisting}
+
+\paragraph{Lösning Övning 10}
+\begin{lstlisting}
+stock = {"apples": 5}
+has_bananas = "bananas" in stock  # Blir False
+banana_count = stock.get("bananas", 0)  # Har en nolla i input för att undvika KeyError genom att returnera 0 om nyckeln saknas
+print(f"Finns bananer? {has_bananas}. Antal: {banana_count}")
+\end{lstlisting}
+
 \end{document}
