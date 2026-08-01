@@ -1,0 +1,279 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage[swedish]{babel}
+\usepackage[a4paper,margin=2.5cm]{geometry}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{parskip}
+
+% Färginställningar för kodblock
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.96,0.96,0.96}
+
+\lstdefinestyle{pythonstyle}{
+    backgroundcolor=\color{backcolour},   
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{magenta},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\ttfamily\footnotesize,
+    breaklines=true,
+    captionpos=b,
+    keepspaces=true,
+    inputencoding=utf8,
+    extendedchars=true,
+    literate=
+      {å}{{\aa}}1 {ä}{{\"a}}1 {ö}{{\"o}}1
+      {Å}{{\AA}}1 {Ä}{{\"A}}1 {Ö}{{\"O}}1,
+    showspaces=false,
+    showstringspaces=false,
+    showtabs=false,
+    tabsize=4
+}
+
+\lstset{style=pythonstyle}
+
+\begin{document}
+
+\begin{center}
+\Large\textbf{Komplett Lathund: Test kap. 5--8 (Teori, Syntax \& Loopar)}
+\end{center}
+
+\bigskip
+
+\section*{Lathund Python: Felhantering, Datastrukturer, Moduler och Funktionell Programmering}
+
+\subsection*{Kapitel 5: Felhantering och Felsökning}
+
+\textbf{Naiv felhantering:} Att enbart returnera en sträng eller \texttt{int} vid fel. Detta indikerar att ett fel uppstått, men ger ingen detaljerad information om \textit{vad} som gick fel.
+
+\textbf{Try / Except:} Rekommenderat sätt att hantera undantag (exceptions). Målet är att ha så lite kod som möjligt inuti \texttt{try}-blocket för att isolera felkällan.
+
+\textbf{Vanliga Särfall (Exceptions):}
+\begin{itemize}
+    \item \texttt{ValueError}: Rätt datatyp, men ogiltigt värde. T.ex. \texttt{int("hej")}.
+    \item \texttt{FileNotFoundError}: Filen som försöker öppnas existerar inte.
+    \item \texttt{IOError} (även \texttt{OSError}): Fel vid in/utmatning, t.ex. filen är låst.
+    \item \texttt{ZeroDivisionError}: Division med noll.
+    \item \texttt{IndexError}: Försök att komma åt ett index utanför en listas gränser.
+    \item \texttt{KeyError}: Försök att använda en nyckel som inte finns i en dictionary.
+    \item \texttt{TypeError}: Operation applicerad på fel datatyp (mer generellt än ValueError). T.ex. \texttt{"hej" + 5}.
+\end{itemize}
+
+\textbf{Hantering av fel:}
+\begin{lstlisting}[language=Python]
+while True:
+    try:
+        x = int(input("Ange ett tal: "))
+        break # Bryter loopen om inmatningen lyckas
+    except ValueError as fel: # Sparar felet för ev. utskrift
+        print(f"Ett fel uppstod: {fel}. Försök igen.")
+        continue # Startar om loopen
+\end{lstlisting}
+
+\textbf{Skapa egna fel:} Använd \texttt{raise} för att manuellt kasta ett undantag.
+\begin{lstlisting}[language=Python]
+raise Exception("Mitt anpassade felmeddelande")
+\end{lstlisting}
+
+\textbf{Designval vid felhantering:}
+\begin{itemize}
+    \item \textbf{Applikationsprogrammering (Slutanvändare):} Fånga fel (\texttt{try/except}) för att förhindra krascher och hålla programmet igång för användaren.
+    \item \textbf{Stödprogrammering (Bibliotek/Moduler):} Låt koden krascha direkt ("fail-fast", \texttt{raise}) så att utvecklaren upptäcker felet.
+    \item \textbf{If vs Try/Except:} Använd \texttt{if} för förväntad logik och \texttt{try/except} för oförutsägbara fel. \texttt{try/except} kan dra mer prestanda när undantag faktiskt kastas.
+    \item Hantera felen, ignorera dem inte tyst. Exempel: Vid \texttt{FileNotFoundError}, ge användaren valet att skapa filen eller avsluta via \texttt{quit()}.
+\end{itemize}
+
+\textbf{Comprehensions (Omfattningar):}
+Ett kompakt sätt att skapa samlingar, inspirerat av matematik.
+
+\textit{List Comprehensions syntax:} \texttt{[uttryck for item in iterable if villkor]}
+\begin{lstlisting}[language=Python]
+# Skapar en lista med kvadrater av jämna tal (0 till 9)
+kvadrater = [x**2 for x in range(10) if x % 2 == 0]
+\end{lstlisting}
+\textit{Tips:} Använd \texttt{zip(lista1, lista2)} för att iterera över två listor samtidigt i en comprehension.
+
+\textit{Dict Comprehensions syntax:} \texttt{\{nyckel: värde for item in iterable if villkor\}}
+\begin{lstlisting}[language=Python]
+# Skapar en dictionary med jämna tal som nycklar och deras kvadrater som värden
+kvadrat_dict = {x: x**2 for x in range(10) if x % 2 == 0}
+\end{lstlisting}
+
+\textbf{Felsökningstekniker:} Leta efter \textit{orsaken}, inte bara \textit{symptomet}.
+\begin{itemize}
+    \item \textbf{Spårutskrifter (Print-debugging):} Använd f-strängar \texttt{f'\{x=\}'} för att skriva ut både variabelns namn och värde (t.ex. \texttt{x=5}). Ta bort dessa innan koden är färdig.
+    \item \textbf{Logging:} Mer professionellt alternativ till \texttt{print()}. Kan slås av/på och dirigeras till filer.
+\begin{lstlisting}[language=Python]
+import logging
+# Sätter loggnivå till DEBUG (skriver ut allting) och mål till en fil
+logging.basicConfig(filename='derivative.log', level=logging.DEBUG)
+
+def derivative(polynomial):
+    result = []
+    degree = 1
+    for term in polynomial:
+        new_coefficient = term * degree
+        # Skriver information till loggfilen
+        logging.debug(f'{degree=}, {term=}, {new_coefficient=}') 
+        result.append(new_coefficient)
+        degree += 1
+    return result
+\end{lstlisting}
+    \textit{Loggnivåer:} Om nivån sätts högre än DEBUG (t.ex. WARNING eller ERROR), ignoreras \texttt{logging.debug()}.
+    \item \textbf{Debugger (i IDE som VS Code/Spyder):} Låter dig köra koden rad för rad. 
+    \begin{itemize}
+        \item \textbf{Brytpunkt (Breakpoint):} Pausar exekveringen på en specifik rad.
+        \item \textbf{Step Over:} Kör nuvarande rad och går till nästa.
+        \item \textbf{Step Into:} Går \textit{in} i funktionen som anropas på nuvarande rad.
+        \item \textbf{Continue:} Kör koden tills nästa brytpunkt träffas.
+    \end{itemize}
+    \item \textbf{Kontrollpunkter (\texttt{assert}):} Avbryter programmet om ett villkor är falskt.
+    \begin{lstlisting}[language=Python]
+assert x > 0, "x måste vara positivt" # Kastar AssertionError om x <= 0
+    \end{lstlisting}
+    \item \textbf{Övriga strategier:} skriv om kort kod för att undvika stavfel, dubbelkolla format på indata är rätt tecken även om de är lika eller åäö (är specifikt för varje dator), arbeta med små testdata, testa specialfall som används
+\end{itemize}
+
+\subsection*{Kapitel 6: Sekvenstyper och Generatorer}
+
+\textbf{Sekvenstyper:}
+Gemensamma operationer: \texttt{+}, \texttt{*}, \texttt{in}, \texttt{not in}, \texttt{len()}, \texttt{min()}, \texttt{max()}, \texttt{[:]}. Sekvensoperationer returnerar objekt av samma typ. En sekvenstyp är en samling av element som kan indexeras och itereras över medan en generator är en iterator som genererar ett element i taget.
+
+\begin{itemize}
+    \item \textbf{Listor \texttt{[]}:} Muterbara (föränderliga) sekvenstyp.
+    \item \textbf{Dictionaries \texttt{\{\}}:} Muterbara sekvenstyp.
+    \item \textbf{Strängar \texttt{""}:} Immutabla (oföränderliga) sekvenstyp. Har många inbyggda metoder (t.ex. \texttt{lower()}, \texttt{split()}).
+    \item \textbf{Tuples \texttt{()}:} Immutabla sekvenstyp. Används för samlingar som inte ska ändras. Kan användas som nycklar i dictionaries (förutsatt att de inte innehåller muterbara objekt som en lista).
+    \item \textbf{Range \texttt{range(start, stop, step)}:} Immutabel generator. Stödjer inte \texttt{+} eller \texttt{*}. 
+    \item \textbf{Yield:} Används i generatorfunktioner för att returnera ett värde i taget. Jämfört med return så sparas tillståndet i funktionen och kan återupptas vid nästa anrop.
+\end{itemize}
+
+\textbf{Generatorer \& Evaluering:}
+\begin{itemize}
+    \item \textbf{Strikt evaluering:} Alla värden beräknas och lagras i minnet direkt (t.ex. listor, strängar).
+    \item \textbf{Lat evaluering (Generatorer):} Itererbara objekt som genererar ett värde i taget vid behov (\texttt{yield} istället för \texttt{return}). Mycket minneseffektivt för stora datamängder (t.ex. \texttt{range()}).
+\end{itemize}
+
+\textbf{Skapa Generatorer:}
+\begin{lstlisting}[language=Python]
+# Generatorfunktion med yield
+def min_generator():
+    yield 1
+    yield 2
+
+# Generatoruttryck (syntax liknande list comprehension fast med parenteser)
+gen = (x**2 for x in range(10) if x % 2 == 0)
+\end{lstlisting}
+
+\subsection*{Kapitel 7: Moduler och Bra Kod}
+
+\textbf{Modulsystemet:} Varje \texttt{.py}-fil är en modul.
+\begin{lstlisting}[language=Python]
+import math # Hela modulen. Användning: math.sqrt()
+from math import sqrt # Specifik funktion. Användning: sqrt()
+import numpy as np # Import med alias. Användning: np.array()
+# from math import * # Ofta dålig praxis (kan skapa namnkonflikter)
+\end{lstlisting}
+
+\textbf{Paket:} Mappar som grupperar flera relaterade moduler.
+
+\textbf{\texttt{\_\_main\_\_} blocket:}
+Används för kod som endast ska köras om filen exekveras direkt (inte när den importeras).
+\begin{lstlisting}[language=Python]
+def min_funktion():
+    pass
+
+if __name__ == "__main__":
+    # Denna kod körs inte om filen importeras som modul
+    print("Körs som huvudprogram")
+\end{lstlisting}
+
+
+\textbf{Att skriva egna moduler:} Först Skriv kod i en pythonfil, sen Spara filen med .py, sist Importera modulen i en annan fil med import modulnamn. OBS python letar först i samma mapp, så ha gärna modulen där.
+
+
+\textbf{Vanliga Bibliotek:}
+Är samling av moduler som kan importeras: \texttt{math}, \texttt{sys}, \texttt{os}, \texttt{argparse}, \texttt{itertools}, \texttt{functools}, \texttt{datetime}, \texttt{pickle} (serialisering), \texttt{csv}, \texttt{json}, \texttt{matplotlib}, \texttt{numpy}, \texttt{scipy}.
+
+
+\textbf{JSON och Serialisering:}
+Löser problemet med att spara komplexa datastrukturer (nästlade listor/dict) till fil i ett portabelt textformat.
+\begin{lstlisting}[language=Python]
+import json
+data = {"namn": "Ada", "ålder": 30}
+json_string = json.dumps(data) # Konverterar dict till JSON-sträng
+\end{lstlisting}
+
+\textbf{Kodkvalitet \& PEP-8:} Python stilguide. Man kan även kolla att sin kod är rätt med pythochecker.com eller IDE med stöd samt pylint i terminalfönstret.
+\begin{itemize}
+    \item \textbf{Kommentarer:} Ska förklara \textit{varför}, inte \textit{hur}. Använd docstrings \texttt{"""..."""} för funktioner/klasser.
+    \item \textbf{Funktioner:} Ska vara korta (max en halv skärm), göra \textit{en} sak, och oftast ta parametrar och returnera värden (skriv inte ut i funktionen om det inte är dess uttalade syfte). Undvik att returnera magiska siffror (siffror utan betydelse för användaren), returnera hellre flera värden som en tuple än komplexa blandade strängar.
+    \item \textbf{Struktur:} Skapa top-down. Abstrahera bort detaljer i modulär kod. En instruktion per rad. Uppdatera dessa vanor när någon del av koden uppdateras. Om indentering i if satser bli djupa, skapa hjälpfunktioner för fallen.
+    \item \textbf{Variabler:} Undvik globala variabler (globala konstanter är OK). Ge beskrivande namn, undvik "magiska" nummer direkt i koden.
+    \item \textbf{Tester:} Det ska vara lätt att skapa tester mha modulär kod.
+    \item \textbf{Undantag:} Funktioner som main behöver inte vara informativa.
+    \item \textbf{Dålig praxis:} Copy-paste av kod (skriv om istället).
+\end{itemize}
+
+\subsection*{Kapitel 8: Funktionell Programmering}
+
+\textbf{Funktionell programmering:} Paradigmen ("sätt att programmera") där funktioner kan anropa, sätta ihop och modifiera andra funktioner. Detta kontrasteras mot imperativa språk då man skriver steg-för-steg instruktioner, dvs den programering man lär sig först.
+
+\textbf{First Class Citizen (Första klassens medborgare):}
+Innebär att funktioner behandlas som vilken annan variabel som helst: de kan skickas som argument, returneras och tilldelas.
+
+\textbf{Rekursion:}
+När en funktion anropar sig själv. Måste ha ett \textbf{basfall} för att sluta anropa sig själv. Riskerar dock att bli långsamma och kan effektiviseras genom att skapa flera delsteg i argumentet och funktionen för att täcka flera fall samtidigt.
+\begin{itemize}
+    \item \textbf{Användningsområden:} Matte (Fibonacci, GCD), loopa över tal/listor. Vid listor används ofta en tom lista \texttt{[]} som basfall, och man plockar bort element i varje anrop.
+    \item \textbf{Quicksort:} Ett klassiskt rekursivt exempel. Välj pivot, dela i listor med större/mindre element, anropa rekursivt, sätt ihop.
+    \item \textbf{Minneshantering (Stacken):} Vid varje anrop sparas parametrar och returadresser på anropsstacken. Vid djupt nästlade anrop kan detta dra mycket minne.
+    \item \textbf{Svansrekursion (Tail Recursion):} Om det rekursiva anropet är det absolut sista som sker, kan kompilatorer (vissa, men inte Python standard) optimera bort stack-användningen till en vanlig loop.
+\end{itemize}
+
+\textbf{Anonyma funktioner (Lambda):}
+Små engångsfunktioner.
+\textit{Syntax:} \texttt{lambda argument: uttryck}
+\begin{lstlisting}[language=Python]
+kvadrat = lambda x: x**2
+\end{lstlisting}
+
+\textbf{Högre ordningens funktioner:}
+Funktioner som tar andra funktioner som argument.
+\begin{itemize}
+    \item \textbf{map:} Applicerar en funktion på alla element i en iterabel.
+    \begin{lstlisting}[language=Python]
+lista = [1, 2, 3]
+# Applicerar lambda-funktionen på varje element
+kvadrater = list(map(lambda x: x**2, lista)) 
+    \end{lstlisting}
+    \item \textbf{filter:} Tar ett predikat (en funktion som returnerar True/False) och returnerar de element som är True.
+    \begin{lstlisting}[language=Python]
+# Filtrerar ut de jämna talen
+jämna = list(filter(lambda x: x % 2 == 0, lista))
+    \end{lstlisting}
+    \item \textbf{Egna ordningens högre funktioner:} Man kan kan skapa egna högre ordningens funktioner med \texttt{def} som tar funktioner som argument.
+    \begin{lstlisting}[language=Python]
+    def apply_function(func, data):
+        return [func(x) for x in data]
+    # Exempelanvändning
+    resultat = apply_function(lambda x: x**2, [1, 2, 3])
+    \end{lstlisting}
+\end{itemize}
+
+\end{document}
+
+
+
+
+
+
+
+
+
+
+
+

@@ -222,20 +222,6 @@ return [1, 3] + [8] + [59] = [1, 3, 8, 59]
 
 _______________________________________________________lessons ends____________________________________________________________
 
-Chapters
-
-1) Intro to course
-
-2) Intro to python
-
-3) Lists and iterations
-
-4) Files and dictionaries
-
-5) Error handling and exceptions
-
-6) Sequences and generators
-
 7) Modules, libraries, program structure
 
 8) Functional programming
