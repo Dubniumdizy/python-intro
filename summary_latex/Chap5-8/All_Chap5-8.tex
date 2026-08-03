@@ -264,6 +264,154 @@ jämna = list(filter(lambda x: x % 2 == 0, lista))
     \end{lstlisting}
 \end{itemize}
 
+\section*{Questions}
+
+\subsection*{1. Placering av \texttt{try-except} i loopar (Kapitel 5, Uppgift 2)}
+
+\begin{itemize}
+    \item \textbf{Viktigt att veta (Placering och Flöde):}
+    \begin{itemize}
+        \item \textbf{\texttt{try-except} Utanför/Runt loopen:} Om \texttt{try}-blocket omsluter hela \texttt{for}-loopen kommer programmet att avbryta hela loopen så fort ett särfall (exception) uppstår på någon rad. Kontrollflödet hoppar direkt ut ur loopen till \texttt{except}-blocket och återvänder inte till efterföljande rader.
+        \item \textbf{\texttt{try-except} Inuti loopen:} Om \texttt{try-except} placeras inuti \texttt{for}-loopen hanteras felet enbart för den aktuella iterationen. När \texttt{except}-blocket har exekverats fortsätter loopen automatiskt till nästa element/rad i filen.
+    \end{itemize}
+
+    \item \textbf{Hur man löser problemet:}
+    \begin{itemize}
+        \item Placera \texttt{try}-blocket inuti loopen runt den specifika beräkningen och typomvandlingen.
+        \item Fånga de specifika felen (t.ex. \texttt{ZeroDivisionError} och \texttt{ValueError}) i separata \texttt{except}-block så att giltiga rader fortfarande kan beräknas och läggas till i resultatlistan.
+    \end{itemize}
+
+    \item \textbf{Kodexempel:}
+\begin{lstlisting}[language=Python]
+def divide_by_elems(filename, x):
+    quotients = []
+    with open(filename, 'r') as h:
+        for n in h:
+            # try-except placeras INUTI loopen
+            try:
+                frac = x / int(n)
+                quotients.append(frac)
+            except ZeroDivisionError:
+                print("divide_by_elems: Division med noll ignoreras.")
+            except ValueError:
+                print("divide_by_elems: Kan inte konvertera raden till ett heltal.")
+    return quotients
+\end{lstlisting}
+\end{itemize}
+
+\vspace{1cm}
+
+\subsection*{2. Nästlad Listomfattning med Indexering (Kapitel 5, Uppgift 7)}
+
+\begin{itemize}
+    \item \textbf{Viktigt att veta (Hur två \texttt{for}-delar samverkar):}
+    \begin{itemize}
+        \item En nästlad listomfattning (list comprehension) läses från vänster till höger på samma sätt som nästlade \texttt{for}-loopar.
+        \item Den första \texttt{for i in ...}-delen utgör den yttre loopen, och den andra \texttt{for j in ...}-delen utgör den inre loopen.
+        \item För varje värde på index $i$ köra hela \texttt{j}-loopen igenom alla sina index.
+    \end{itemize}
+
+    \item \textbf{Varför vi kollar \texttt{i != j} istället för \texttt{xs[i] != xs[j]}:}
+    \begin{itemize}
+        \item Villkoret i uppgiften kräver att ett element inte ska multipliceras med sig självt på samma position i listan.
+        \item Om en lista innehåller dubbletter (t.ex. \texttt{xs = [2, 2, 3]}), skulle en kontroll av värdena (\texttt{xs[i] != xs[j]}) felaktigt filtrera bort multiplikationen mellan det första $2$:an (index $0$) och det andra $2$:an (index $1$).
+        \item Genom att jämföra indexen (\texttt{i != j}) garanterar vi att vi enbart hoppar över när elementet ställs mot sin exakta position, oavsett vilka tal som finns i listan.
+    \end{itemize}
+
+    \item \textbf{Hur man löser problemet:}
+    \begin{itemize}
+        \item Använd \texttt{range(len(xs))} för att iterera över index $i$ och $j$ istället för direkt över värdena.
+        \item Lägg till villkoret \texttt{if i != j} i predikatdelen sist i listomfattningen.
+    \end{itemize}
+
+    \item \textbf{Kodexempel:}
+\begin{lstlisting}[language=Python]
+xs = [2, 3, 5, 7]
+
+# Nästlad listomfattning med index och villkor i != j
+ys = [xs[i] * xs[j] for i in range(len(xs)) for j in range(len(xs)) if i != j]
+
+print(ys)
+# Utskrift: [6, 10, 14, 6, 15, 21, 10, 15, 35, 14, 21, 35]
+\end{lstlisting}
+\end{itemize}
+
+\subsection*{3. Fibonacci-generator och \texttt{yield} (Kapitel 6, Uppgift 6)}
+
+\begin{itemize}
+    \item \textbf{Viktigt att veta (Hur \texttt{yield} och tillstånd fungerar):}
+    \begin{itemize}
+        \item Till skillnad från \texttt{return}, som avslutar funktionen helt och raderar alla lokala variabler ur minnet, pausar \texttt{yield} funktionens exekvering och sparar hela dess tillstånd (variabelvärden och var i koden man befinner sig).
+        \item Koden före loopen exekveras enbart en gång vid starten av generatorn för att initiera startvärdena.
+        \item När nästa element begärs (t.ex. i en \texttt{for}-loop) återupptas exekveringen direkt på raden efter \texttt{yield}.
+    \end{itemize}
+
+    \item \textbf{Hur man löser problemet:}
+    \begin{itemize}
+        \item Sätt upp startvärdena $a = 0$ och $b = 1$ innan loopen startar.
+        \item Använd en \texttt{while}-loop med villkoret $a \le stop$.
+        \item Generera värdet $a$ med \texttt{yield a}, och uppdatera därefter båda variablerna parallellt: \texttt{a, b = b, a + b}.
+    \end{itemize}
+
+    \item \textbf{Kodexempel:}
+\begin{lstlisting}[language=Python]
+def fibonacci(stop):
+    a, b = 0, 1
+    while a <= stop:
+        yield a
+        a, b = b, a + b
+
+# Exempel pa anvandning:
+for num in fibonacci(15):
+    print(num, end=" ")
+# Utskrift: 0 1 1 2 3 5 8 13
+\end{lstlisting}
+\end{itemize}
+
+\vspace{1cm}
+
+\subsection*{4. Generatoruttryck vs Generatorfunktioner (Kapitel 6, Uppgift 7 \& 8)}
+
+\begin{itemize}
+    \item \textbf{Viktigt att veta (Skillnader och val av metod):}
+    \begin{itemize}
+        \item \textbf{Resultat:} Båda metoderna resulterar i ett generatorobjekt som utvärderas lat (beräknar ett element i taget när det efterfrågas).
+        \item \textbf{Generatoruttryck:} Används med parenteser \texttt{(uttryck for item in iterabel if villkor)}. Lämpar sig bäst när transformationen eller filtreringen är enkel och får plats på en enda rad.
+        \item \textbf{Generatorfunktion:} Använder \texttt{def} och nyckelordet \texttt{yield}. Krävs när logiken kräver flera steg, sammanhangshantering (som \texttt{with open}), eller bearbetning av indata före utmatning.
+    \end{itemize}
+
+    \item \textbf{Hur man löser Uppgift 7 (\texttt{map\_gen}):}
+    \begin{itemize}
+        \item Eftersom uppgiften enbart kräver att en funktion appliceras på varje element kan funktionen returnera ett generatoruttryck direkt på en rad.
+    \end{itemize}
+
+    \item \textbf{Kodexempel Uppgift 7:}
+\begin{lstlisting}[language=Python]
+def map_gen(function, iterable):
+    return (function(item) for item in iterable)
+
+gen = map_gen(int, '123456')
+print(sum(gen)) # Utskrift: 21
+\end{lstlisting}
+
+    \item \textbf{Hur man löser Uppgift 8 (\texttt{palindrome\_rows}):}
+    \begin{itemize}
+        \item Eftersom filen måste öppnas och stängas säkert, samt varje rad behöver rensas från nyradstecken (\texttt{\textbackslash n}), är en generatorfunktion med \texttt{yield} det säkraste och mest läsbara valet.
+    \end{itemize}
+
+    \item \textbf{Kodexempel Uppgift 8:}
+\begin{lstlisting}[language=Python]
+def is_palindrome(s):
+    cleaned = s.strip()
+    return cleaned == cleaned[::-1]
+
+def palindrome_rows(filename):
+    with open(filename, 'r') as file:
+        for line in file:
+            yield is_palindrome(line)
+\end{lstlisting}
+\end{itemize}
+
 \end{document}
 
 

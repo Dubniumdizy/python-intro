@@ -1,21 +1,7 @@
-"""Creates a custom 3x5 coordinate-indexed matrix."""
+def fibonacci ( stop ) :
+    a , b = 0 , 1
+    while a <= stop :
+        yield a # if you write return instead of yield, the function will return only the first value and then stop
+        a , b = b , a + b
 
-
-ROWS = 3
-COLS = 5
-grid = []
-for r in range(ROWS):
-    row_data = []
-    for c in range(COLS):
-        value = (r + 1) * 10 + (c + 1)
-        row_data.append(value)
-    grid.append(row_data)
-
-matrix = [[11, 12, 13, 14, 15], [21, 22, 23, 24, 25], [31, 32, 33, 34, 35]]
-
-"""
-list comprehension = [for each element in X, do this on the element, save as a list]
-"""
-
-def function():
-    return 2 + 3
+print(list(fibonacci(100)))
