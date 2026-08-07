@@ -10,8 +10,6 @@ instans = one specfic objekt
 Attribut = variables
 Method = function
 '''
-
-
     # Syntax for classes
     class Bilar: # Bör namnges med stor bokstav i början, va ett substantiv tex Bilar
 
@@ -58,20 +56,3 @@ Method = function
 
     min_bil = Bil(5, 1500) # man kan manipulera med beräkna_värde() men inte ändra _ålder eller _vikt direkt om man inte skriver...
     min_bil._ålder = 10  # ...så här, men det är inte rekommenderat eftersom det bryter mot principen om inkapsling.
-
-
-class verify_data(self, data)
-    __init__
-    0 < data < 5000
-    data == int
-
-class verify_functions
-
-class algoritm_preperation
-
-class algoritm_v1
-
-class algoritm_v2
-
-def call function(data, algoritm, v2)
-
